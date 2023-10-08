@@ -52,14 +52,28 @@ public class LoginManager {
         }
 
         LoginRequestBody body = new LoginRequestBody(nic, password);
-        loginService.login(body)
-                .enqueue(new Callback<LoginResponse>() {
+        loginService.login(body).enqueue(new Callback<LoginResponse>() {
                     @Override
                     public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                        if (response.body().success) {
-                            onSuccess.run();
+                        if (response.isSuccessful()) {
+                            LoginResponse loginResponse = response.body();
+                            if (loginResponse != null) {
+                                System.out.println("NIC: " + loginResponse.getNic());
+                                System.out.println("Name: " + loginResponse.getName());
+                                System.out.println("Email: " + loginResponse.getEmail());
+
+                            } else {
+                                onError.accept("Unknown error occurred while logging in");
+                            }
                         } else {
-                            onError.accept("NIC or password is incorrect");
+                            // Handle unsuccessful response
+                            if (response.code() == 404) {
+                                // User not found
+                                onError.accept("User with NIC " + nic + " not found");
+                            } else {
+                                // Other errors, including "Incorrect Nic or password"
+                                onError.accept("NIC or password is incorrect");
+                            }
                         }
                     }
 
