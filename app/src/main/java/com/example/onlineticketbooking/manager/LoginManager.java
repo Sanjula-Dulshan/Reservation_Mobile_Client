@@ -1,10 +1,12 @@
 package com.example.onlineticketbooking.manager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 
 import androidx.core.util.Consumer;
 
+import com.example.onlineticketbooking.Login;
 import com.example.onlineticketbooking.models.login.LoginRequestBody;
 import com.example.onlineticketbooking.models.login.LoginResponse;
 import com.example.onlineticketbooking.models.login.LoginService;
@@ -43,7 +45,7 @@ public class LoginManager {
     public void login(
             String nic,
             String password,
-            Runnable onSuccess,
+            Consumer<LoginResponse> onSuccess,
             Consumer<String> onError
     ) {
         if (!NetworkManager.getInstance().isNetworkAvailable()) {
@@ -58,9 +60,11 @@ public class LoginManager {
                         if (response.isSuccessful()) {
                             LoginResponse loginResponse = response.body();
                             if (loginResponse != null) {
+
                                 System.out.println("NIC: " + loginResponse.getNic());
                                 System.out.println("Name: " + loginResponse.getName());
                                 System.out.println("Email: " + loginResponse.getEmail());
+                                onSuccess.accept(loginResponse);
 
                             } else {
                                 onError.accept("Unknown error occurred while logging in");
@@ -91,6 +95,31 @@ public class LoginManager {
         SharedPreferences.Editor editor = context.getSharedPreferences(loginStateFile, Context.MODE_PRIVATE).edit();
         editor.putBoolean(isLoggedInKey, isLoggedIn);
         editor.apply();
+
+    }
+
+    public void setLoggedInUser(LoginResponse loginResponse) {
+        Context context = ContextManager.getInstance().getApplicationContext();
+        SharedPreferences.Editor editor = context.getSharedPreferences(loginStateFile, Context.MODE_PRIVATE).edit();
+        editor.putString("nic", loginResponse.getNic());
+        editor.putString("name", loginResponse.getName());
+        editor.putString("email", loginResponse.getEmail());
+        editor.putBoolean("isTraveler", loginResponse.isTraveler());
+        editor.putBoolean("isAgent", loginResponse.isAgent());
+        editor.putBoolean("isBackOffice", loginResponse.isBackOffice());
+        editor.apply();
+
+    }
+
+    public void logout () {
+        setLoggedInState(false);
+        Context context = ContextManager.getInstance().getApplicationContext();
+        SharedPreferences.Editor editor = context.getSharedPreferences(loginStateFile, Context.MODE_PRIVATE).edit();
+        editor.clear();
+        editor.apply();
+        Intent intent = new Intent(context, Login.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(intent);
     }
 
     public boolean getIsLoggedIn() {
