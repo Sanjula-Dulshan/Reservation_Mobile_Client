@@ -44,7 +44,7 @@ public class TrainAdapter extends RecyclerView.Adapter<TrainAdapter.ViewHolder> 
             DepTime = itemView.findViewById(R.id.txtDepartTime);
             ArrTime = itemView.findViewById(R.id.txrArriveTime);
             Price = itemView.findViewById(R.id.txtPrice);
-            btnBook = itemView.findViewById(R.id.btnDelete);
+            btnBook = itemView.findViewById(R.id.btnBookNow);
         }
 
         public void bind(TrainSchedule item) {

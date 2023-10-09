@@ -15,7 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        tools:ignore="MissingConstraints">
 
         <TextView
             android:id="@+id/txtTrainname"
@@ -94,7 +95,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/btnDelete"
+            android:id="@+id/btnBookNow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/btnColor"
