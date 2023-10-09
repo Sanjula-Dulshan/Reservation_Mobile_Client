@@ -23,11 +23,33 @@
         <activity
             android:name=".Login"
             android:exported="false" />
+
+        <activity
+            android:name=".SelectTrip"
+            android:exported="false" />
+
+        <activity
+            android:name=".TrainList"
+            android:exported="false" />
+        <activity
+            android:name=".TripList"
+            android:exported="false" />
+
+        <activity
+            android:name=".TicketSummary"
+            android:exported="false" />
+
+
+
         <activity
             android:name=".Startup"
             android:exported="false"
             android:label="@string/title_activity_startup"
             android:theme="@style/Theme.OnlineTicketBooking" />
+
+
+
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
