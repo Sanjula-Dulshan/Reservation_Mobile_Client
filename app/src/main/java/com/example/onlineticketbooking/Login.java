@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.onlineticketbooking.R.id;
 import com.example.onlineticketbooking.manager.ContextManager;
 import com.example.onlineticketbooking.manager.LoginManager;
+import com.example.onlineticketbooking.models.login.LoginResponse;
 
 public class Login extends AppCompatActivity {
 
@@ -62,12 +63,16 @@ public class Login extends AppCompatActivity {
         loginManager.login(
                 nic,
                 password,
-                () -> handleLoginSuccess(),
+                loginResponse -> {
+                    // Handle the successful login response
+                    handleLoginSuccess(loginResponse);
+                },
                 error -> handleLoginFailed(error));
     }
 
-    private void handleLoginSuccess() {
+    private void handleLoginSuccess(LoginResponse loginResponse) {
         loginManager.setLoggedInState(true);
+        loginManager.setLoggedInUser(loginResponse);
         checkLoginState();
     }
 
@@ -78,12 +83,12 @@ public class Login extends AppCompatActivity {
     private void checkLoginState() {
         System.out.print("loginManager.getIsLoggedIn() "+ loginManager.getIsLoggedIn());
         if (loginManager.getIsLoggedIn()) {
-            showMainActivity();
+            showHomeActivity();
         }
     }
 
-    private void showMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
+    private void showHomeActivity() {
+        Intent intent = new Intent(this, Home.class);
         startActivity(intent);
         finish();
     }

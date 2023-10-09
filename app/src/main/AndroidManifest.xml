@@ -14,10 +14,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OnlineTicketBooking"
-        tools:targetApi="31"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
+        <activity
+            android:name=".Home"
+            android:exported="false" >
 
-    <activity
+        </activity>
+        <activity
             android:name=".SignUp"
             android:exported="false" />
         <activity
