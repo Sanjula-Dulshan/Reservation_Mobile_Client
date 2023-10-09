@@ -35,23 +35,23 @@ public class TrainAdapter extends RecyclerView.Adapter<TrainAdapter.ViewHolder> 
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView txtCardName, txtCardNumber, txtExpDate, txtCV;
-        private Button btnDelete;
+        private TextView TrainName, DepTime, ArrTime, Price;
+        private Button btnBook;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtCardName = itemView.findViewById(R.id.txtTrainname);
-            txtCardNumber = itemView.findViewById(R.id.txtDepartTime);
-            txtExpDate = itemView.findViewById(R.id.txrArriveTime);
-            txtCV = itemView.findViewById(R.id.txtPrice);
-            btnDelete = itemView.findViewById(R.id.btnDelete);
+            TrainName = itemView.findViewById(R.id.txtTrainname);
+            DepTime = itemView.findViewById(R.id.txtDepartTime);
+            ArrTime = itemView.findViewById(R.id.txrArriveTime);
+            Price = itemView.findViewById(R.id.txtPrice);
+            btnBook = itemView.findViewById(R.id.btnDelete);
         }
 
         public void bind(TrainSchedule item) {
-            txtCardName.setText(item.getCardName());
-            txtCardNumber.setText(item.getCardNumber());
-            txtExpDate.setText(item.getExpDate());
-            txtCV.setText(item.getPrice());
+            TrainName.setText(item.getCardName());
+            DepTime.setText(item.getCardNumber());
+            ArrTime.setText(item.getExpDate());
+            Price.setText(item.getPrice());
         }
     }
 }

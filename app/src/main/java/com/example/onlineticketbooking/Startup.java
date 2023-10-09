@@ -33,7 +33,7 @@ public class Startup extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent signUp = new Intent(getApplicationContext(),SignUp.class);
+                Intent signUp = new Intent(getApplicationContext(),TripList.class);
                 startActivity(signUp);
 
 
