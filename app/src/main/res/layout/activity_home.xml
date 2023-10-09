@@ -6,34 +6,56 @@
     android:layout_height="match_parent"
     tools:context=".Home">
 
-    <Button
-        android:id="@+id/btnBook"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Booking"
-        app:layout_constraintBottom_toTopOf="@+id/btnBookingList"
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="367dp"
+        android:layout_height="298dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.636"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.46" />
+        app:layout_constraintVertical_bias="0.011"
+        app:srcCompat="@drawable/travel" />
 
     <Button
-        android:id="@+id/btnBookingList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="232dp"
-        android:text="Booking List"
-        app:layout_constraintBottom_toTopOf="@+id/btnLogout"
+        android:id="@+id/btnBook"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:backgroundTint="@color/btnColor"
+
+        android:text="Booking"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.107"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.712" />
+
+    <Button
+        android:id="@+id/btnTripHistory"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:backgroundTint="@color/btnColor"
+        android:text="Trip History"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.938"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.712" />
 
     <Button
         android:id="@+id/btnLogout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="116dp"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:backgroundTint="@android:color/holo_red_dark"
+
         android:text="Logout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.864" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -52,8 +52,6 @@
             android:theme="@style/Theme.OnlineTicketBooking" />
 
 
-
-
         <activity
             android:name=".MainActivity"
             android:exported="true">
