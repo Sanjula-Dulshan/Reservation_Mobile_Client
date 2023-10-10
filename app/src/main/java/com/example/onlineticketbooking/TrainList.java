@@ -24,9 +24,9 @@ public class TrainList extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         List<TrainSchedule> data = new ArrayList<>();
-        data.add(new TrainSchedule("Raja Rata Manike", "8:13 AM", "11:20", "30"));
-        data.add(new TrainSchedule("Raja Rata Manike", "8:13 AM", "11:20", "30"));
-        data.add(new TrainSchedule("Raja Rata Manike", "8:13 AM", "11:20", "30"));
+        data.add(new TrainSchedule("Raja Rata Manike", "8:13 AM", "11:20 AM", "30"));
+        data.add(new TrainSchedule("Ruhunu Kumari", "8:40 AM", "12:10 PM", "60"));
+        data.add(new TrainSchedule("Galu Kumari", "9:15 AM", "11:45", "40"));
 
 
 
