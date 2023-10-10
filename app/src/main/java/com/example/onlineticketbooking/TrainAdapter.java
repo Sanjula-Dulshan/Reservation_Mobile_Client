@@ -1,5 +1,7 @@
 package com.example.onlineticketbooking;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,23 +37,45 @@ public class TrainAdapter extends RecyclerView.Adapter<TrainAdapter.ViewHolder> 
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView TrainName, DepTime, ArrTime, Price;
-        private Button btnBook;
+        private TextView TrainName, DepTime, ArrTime, availableSeats;
+        private Button btnBookNow;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             TrainName = itemView.findViewById(R.id.txtTrainname);
             DepTime = itemView.findViewById(R.id.txtDepartTime);
             ArrTime = itemView.findViewById(R.id.txrArriveTime);
-            Price = itemView.findViewById(R.id.txtPrice);
-            btnBook = itemView.findViewById(R.id.btnBookNow);
+            availableSeats = itemView.findViewById(R.id.txtAvailableSeats);
+            btnBookNow  = itemView.findViewById(R.id.btnBookNow);
         }
 
         public void bind(TrainSchedule item) {
-            TrainName.setText(item.getCardName());
-            DepTime.setText(item.getCardNumber());
-            ArrTime.setText(item.getExpDate());
-            Price.setText(item.getPrice());
+            TrainName.setText(item.getTrainName());
+            DepTime.setText(item.getDeparts());
+            ArrTime.setText(item.getArrives());
+            availableSeats.setText(item.getAvailableSeats());
+
+            btnBookNow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Context context = itemView.getContext();
+
+                    Intent ticketSummary = new Intent(context, TicketSummary.class);
+                    ticketSummary.putExtra("trainName", item.getTrainName());
+                    ticketSummary.putExtra("departs", item.getDeparts());
+                    ticketSummary.putExtra("arrives", item.getArrives());
+                    ticketSummary.putExtra("availableSeats", item.getAvailableSeats());
+                    ticketSummary.putExtra("totalPrice", "250.00" );
+                    ticketSummary.putExtra("noOfSeats", "3");
+                    ticketSummary.putExtra("startStation", "Matara");
+                    ticketSummary.putExtra("endStation", "Fort");
+                    ticketSummary.putExtra("date", "2023/10/10");
+
+
+
+                    context.startActivity(ticketSummary);
+                }
+            });
         }
     }
 }
