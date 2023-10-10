@@ -40,26 +40,16 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Train Name &amp; No" />
+                            android:text="Train Name" />
 
                         <TextView
+                            android:id="@+id/txtTrainName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="8057 Express Train" />
                     </TableRow>
 
-                    <TableRow>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Train Name &amp; No" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="8057 Express Train" />
-                    </TableRow>
 
                     <TableRow>
 
@@ -69,6 +59,7 @@
                             android:text="Start Station" />
 
                         <TextView
+                            android:id="@+id/txtStartStation"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Matara" />
@@ -82,6 +73,7 @@
                             android:text="End Station" />
 
                         <TextView
+                            android:id="@+id/txtEndStation"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Colombo Fort" />
@@ -95,6 +87,7 @@
                             android:text="Departure Date" />
 
                         <TextView
+                            android:id="@+id/txtDepartureDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="2023-10-18" />
@@ -108,6 +101,7 @@
                             android:text="Time Start -&gt; End" />
 
                         <TextView
+                            android:id="@+id/txtTimeStartEnd"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="05:56 - 09:29" />
@@ -118,52 +112,40 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="No of Passengers" />
+                            android:text="No of Passengers " />
 
                         <TextView
+                            android:id="@+id/txtNoOfPassengers"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="1" />
                     </TableRow>
 
-                    <TableRow>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Train Class" />
-
-                        <TextView
-                            android:id="@+id/f_classname"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="--" />
-                    </TableRow>
-
-                    <TableRow>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Price" />
-
-                        <TextView
-                            android:id="@+id/f_price"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="--" />
-                    </TableRow>
 
                 </TableLayout>
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+                <TableRow>
 
                 <TextView
-                    android:id="@+id/tfprice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Total Price - LKR:"
+                    android:text="Total Price - LKR: "
                     android:textStyle="bold" />
 
+                    <TextView
+                        android:id="@+id/txtTotalPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold" />
+                </TableRow>
+
+
+
+            </TableLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
