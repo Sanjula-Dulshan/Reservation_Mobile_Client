@@ -1,11 +1,9 @@
 package com.example.onlineticketbooking.manager;
 
-import com.example.onlineticketbooking.models.reservation.ReservationRequestBody;
-import com.example.onlineticketbooking.models.reservation.ReservationResponse;
-import com.example.onlineticketbooking.models.reservation.ReservationService;
-
+import com.example.onlineticketbooking.models.search.SearchRequestBody;
+import com.example.onlineticketbooking.models.search.SearchResponse;
+import com.example.onlineticketbooking.models.search.SearchService;
 import java.util.function.Consumer;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -13,7 +11,8 @@ import retrofit2.Response;
 public class ReservationManager {
 
     private static ReservationManager singleton;
-    private final ReservationService reservationService;
+    private final SearchService searchService;
+
 
     public static ReservationManager getInstance() {
         if (singleton == null) {
@@ -23,26 +22,30 @@ public class ReservationManager {
     }
 
     private ReservationManager() {
-        reservationService = NetworkManager.getInstance().createService(ReservationService.class);
+
+        searchService = NetworkManager.getInstance().createService(SearchService.class);
 
     }
 
-    public void getAvailableTrain(String start, String end, int noOfSeats, String date, Consumer<ReservationResponse> onSuccess, Consumer<String> onError) {
+    public void getAvailableTrain(String start, String end, int noOfSeats, String date, Consumer<SearchResponse> onSuccess, Consumer<String> onError) {
+
 
         if (!NetworkManager.getInstance().isNetworkAvailable()) {
             onError.accept("No internet connectivity");
             return;
         }
 
-        ReservationRequestBody body = new ReservationRequestBody(start, end, noOfSeats, date);
-        reservationService.availableTrains(body).enqueue(new Callback<ReservationResponse>() {
-            @Override
-            public void onResponse(Call<ReservationResponse> call, Response<ReservationResponse> response) {
-                if (response.isSuccessful()) {
-                    ReservationResponse reservationResponse = response.body();
 
-                    if (reservationResponse != null) {
-                        onSuccess.accept(reservationResponse);
+        SearchRequestBody body = new SearchRequestBody(start, end, noOfSeats, date);
+        searchService.availableTrains(body).enqueue(new Callback<SearchResponse>() {
+            @Override
+            public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+                if (response.isSuccessful()) {
+                    SearchResponse searchResponse = response.body();
+
+                    if (searchResponse != null) {
+                        onSuccess.accept(searchResponse);
+
                     } else {
                         onError.accept("Something went wrong");
                     }
@@ -53,7 +56,8 @@ public class ReservationManager {
             }
 
             @Override
-            public void onFailure(Call<ReservationResponse> call, Throwable t) {
+            public void onFailure(Call<SearchResponse> call, Throwable t) {
+
                 onError.accept("Something went wrong");
             }
         });
