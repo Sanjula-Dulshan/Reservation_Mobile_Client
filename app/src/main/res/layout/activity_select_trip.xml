@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -16,10 +15,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/etSeat" />
 
     <Spinner
-        android:id="@+id/from_dropdown"
+        android:id="@+id/spnFrom"
         android:layout_width="348dp"
         android:layout_height="45dp"
         android:entries="@array/dropdown_items"
@@ -29,27 +28,30 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
-        android:id="@+id/editTextNumber"
+        android:id="@+id/etSeat"
         android:layout_width="109dp"
         android:layout_height="46dp"
         android:layout_marginStart="32dp"
         android:ems="10"
+        android:maxLength="1"
+        android:digits="1234"
         android:inputType="number"
-        app:layout_constraintEnd_toStartOf="@+id/editTextDate"
+        app:layout_constraintEnd_toStartOf="@+id/etDate"
         app:layout_constraintHorizontal_bias="0.449"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <EditText
-        android:id="@+id/editTextDate"
+        android:id="@+id/etDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="38dp"
         android:layout_marginEnd="24dp"
         android:ems="10"
-        android:inputType="date"
+        android:focusable="false"
+        android:inputType="none"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editTextNumber"
+        app:layout_constraintStart_toEndOf="@+id/etSeat"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <TextView
@@ -60,9 +62,9 @@
         android:layout_marginEnd="204dp"
         android:text="Date"
         android:textColor="#A6A4A4"
-        app:layout_constraintBottom_toTopOf="@+id/editTextDate"
+        app:layout_constraintBottom_toTopOf="@+id/etDate"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/to_dropdown" />
+        app:layout_constraintTop_toBottomOf="@+id/spnTo" />
 
     <TextView
         android:id="@+id/textView7"
@@ -71,15 +73,16 @@
         android:layout_marginStart="33dp"
         android:layout_marginTop="27dp"
         android:layout_marginEnd="78dp"
-        android:text="Seat count"
+        android:text="Seat count(Max 4)"
         android:textColor="#A6A4A4"
-        app:layout_constraintBottom_toTopOf="@+id/editTextNumber"
+        app:layout_constraintBottom_toTopOf="@+id/etSeat"
         app:layout_constraintEnd_toStartOf="@+id/textView8"
+        app:layout_constraintHorizontal_bias="0.145"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/to_dropdown" />
+        app:layout_constraintTop_toBottomOf="@+id/spnTo" />
 
     <Spinner
-        android:id="@+id/to_dropdown"
+        android:id="@+id/spnTo"
         android:layout_width="348dp"
         android:layout_height="45dp"
         android:entries="@array/dropdown_items"
@@ -107,7 +110,7 @@
         android:layout_marginEnd="338dp"
         android:text="From :"
         android:textColor="#A6A4A4"
-        app:layout_constraintBottom_toTopOf="@+id/from_dropdown"
+        app:layout_constraintBottom_toTopOf="@+id/spnFrom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
@@ -123,6 +126,6 @@
         android:textColor="#A6A4A4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/from_dropdown" />
+        app:layout_constraintTop_toBottomOf="@+id/spnFrom" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

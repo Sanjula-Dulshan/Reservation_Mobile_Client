@@ -9,9 +9,17 @@
 
 
     <string-array name="dropdown_items">
-        <item>Galle</item>
         <item>Matara</item>
-        <item>Colombo</item>
+        <item>Weligama</item>
+        <item>Galle</item>
+        <item>Hikkaduwa</item>
+        <item>Ambalangoda</item>
+        <item>Aluthgama</item>
+        <item>Kalutara</item>
+        <item>Panadura</item>
+        <item>Moratuwa</item>
+        <item>Dehiwala</item>
+        <item>Fort</item>
         <!-- Add more items as needed -->
     </string-array>
 
