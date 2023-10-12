@@ -16,6 +16,8 @@ import com.example.onlineticketbooking.manager.ContextManager;
 import com.example.onlineticketbooking.manager.ReservationManager;
 import com.example.onlineticketbooking.models.search.SearchResponse;
 
+
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -116,6 +118,7 @@ public class SelectTrip extends AppCompatActivity {
                 originalFormattedDate,
                 searchResponse -> {
                     handleSearchSuccess(searchResponse);
+
                 },
                 error -> handleSearchFailed(error));
 
@@ -150,6 +153,7 @@ public class SelectTrip extends AppCompatActivity {
         }
 
     }
+
 
     private void handleSearchSuccess(SearchResponse searchResponse) {
         // Print the reservationResponse for debugging

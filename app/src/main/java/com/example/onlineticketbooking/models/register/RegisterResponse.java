@@ -8,5 +8,4 @@ public class RegisterResponse {
         return message;
     }
 
-
 }
