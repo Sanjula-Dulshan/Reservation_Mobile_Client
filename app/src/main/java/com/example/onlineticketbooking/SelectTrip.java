@@ -91,7 +91,9 @@ public class SelectTrip extends AppCompatActivity {
         String seat = etSeat.getText().toString();
         String date = etDate.getText().toString();
 
-        validateFields(from, to, seat, date);
+        if (!validateFields(from, to, seat, date)) {
+            return;
+        }
 
         reservationManager.getAvailableTrain(
                 from,
@@ -107,35 +109,39 @@ public class SelectTrip extends AppCompatActivity {
 
     }
 
-    private void validateFields(String from, String to, String seat, String date) {
-
+    private boolean validateFields(String from, String to, String seat, String date) {
         if (from.isEmpty()) {
             spnFrom.requestFocus();
             Toast.makeText(getApplicationContext(), "Please select a starting point", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
         if (to.isEmpty()) {
             spnTo.requestFocus();
             Toast.makeText(getApplicationContext(), "Please select a destination", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
         if (from.equals(to)) {
             spnTo.requestFocus();
             Toast.makeText(getApplicationContext(), "Please select a different destination", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
-        if (Integer.parseInt(seat) <= 0) {
+        if (seat.isEmpty()) {
             etSeat.requestFocus();
             Toast.makeText(getApplicationContext(), "Please enter the number of seats", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
         if (date.isEmpty()) {
             etDate.requestFocus();
             Toast.makeText(getApplicationContext(), "Please select a date", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
+        return true;
     }
-
 
     private void handleSearchSuccess(SearchResponse searchResponse) {
         // Print the reservationResponse for debugging
