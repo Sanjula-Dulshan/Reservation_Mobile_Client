@@ -11,13 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-
-
 public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
     private List<TripHistory> data;
     private OnItemClickListener listener;
 
-    public TripAdapter(List<TripHistory> data) {
+    public TripAdapter(List<TripHistory> data, OnItemClickListener listener) {
         this.data = data;
         this.listener = listener;
     }
@@ -83,4 +81,3 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
         void onUpdateClick(TripHistory item);
     }
 }
-
