@@ -152,10 +152,12 @@ public class SelectTrip extends AppCompatActivity {
     }
 
     private void handleSearchSuccess(ReservationResponse reservationResponse) {
-        System.out.print(reservationResponse);
+        // Print the reservationResponse for debugging
+        System.out.print("reservationResponse " + reservationResponse);
         Toast.makeText(this, "Search Success", Toast.LENGTH_LONG).show();
-        Intent login = new Intent(getApplicationContext(), TrainList.class);
-        startActivity(login);
+        Intent intent = new Intent(this, TrainList.class);
+        intent.putExtra("reservationResponse", reservationResponse);
+        startActivity(intent);
     }
 
     private void handleSearchFailed(String error) {

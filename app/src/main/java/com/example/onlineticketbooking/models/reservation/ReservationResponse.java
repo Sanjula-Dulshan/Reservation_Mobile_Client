@@ -1,9 +1,10 @@
 package com.example.onlineticketbooking.models.reservation;
 
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ReservationResponse {
+public class ReservationResponse implements Serializable {
     private List<Train> trainList;
     private int ticketPrice;
     private int totalPrice;
@@ -33,7 +34,7 @@ public class ReservationResponse {
     }
 
     // Inner Train class
-    public static class Train {
+    public static class Train implements Serializable {
         private String trainId;
         private String trainName;
         private String start;
