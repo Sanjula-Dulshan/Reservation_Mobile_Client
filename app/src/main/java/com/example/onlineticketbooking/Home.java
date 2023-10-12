@@ -1,7 +1,5 @@
 package com.example.onlineticketbooking;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,18 +7,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.onlineticketbooking.manager.ContextManager;
 import com.example.onlineticketbooking.manager.LoginManager;
 
 public class Home extends AppCompatActivity {
 
-    private Button btnLogOut, btnBooking, btnTripHistory;
-
+    private Button btnLogOut, btnBooking, btnTripHistory, btnProfile;
 
 
     private LoginManager loginManager;
     private final String loginStateFile = "loginstate";
-
 
 
     @Override
@@ -43,9 +41,10 @@ public class Home extends AppCompatActivity {
         System.out.println("Name: " + name);
 
 
-        btnLogOut = (Button)findViewById(R.id.btnLogout);
-        btnBooking = (Button)findViewById(R.id.btnBook) ;
-        btnTripHistory = (Button)findViewById(R.id.btnTripHistory);
+        btnLogOut = findViewById(R.id.btnLogout);
+        btnBooking = findViewById(R.id.btnBook);
+        btnTripHistory = findViewById(R.id.btnTripHistory);
+        btnProfile = findViewById(R.id.btnProfile);
 
         btnLogOut.setOnClickListener(view -> logout());
         btnBooking.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +61,15 @@ public class Home extends AppCompatActivity {
             public void onClick(View view) {
                 Intent tripHistory = new Intent(getApplicationContext(), TripList.class);
                 startActivity(tripHistory);
+
+            }
+        });
+
+        btnProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent profile = new Intent(getApplicationContext(), Profile.class);
+                startActivity(profile);
 
             }
         });

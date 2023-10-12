@@ -17,7 +17,7 @@ import retrofit2.Response;
 
 public class LoginManager {
     private static LoginManager singleton;
-    private LoginService loginService;
+    private final LoginService loginService;
     private final String loginStateFile = "loginstate";
     private final String isLoggedInKey = "logged_in";
 
@@ -36,10 +36,7 @@ public class LoginManager {
         if (nic == null || nic.length() == 0)
             return false;
 
-        if (password == null || password.length() == 0)
-            return false;
-
-        return true;
+        return password != null && password.length() != 0;
     }
 
     public void login(
@@ -55,38 +52,43 @@ public class LoginManager {
 
         LoginRequestBody body = new LoginRequestBody(nic, password);
         loginService.login(body).enqueue(new Callback<LoginResponse>() {
-                    @Override
-                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                        if (response.isSuccessful()) {
-                            LoginResponse loginResponse = response.body();
-                            if (loginResponse != null) {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (response.isSuccessful()) {
+                    LoginResponse loginResponse = response.body();
+                    if (loginResponse != null) {
 
-                                System.out.println("NIC: " + loginResponse.getNic());
-                                System.out.println("Name: " + loginResponse.getName());
-                                System.out.println("Email: " + loginResponse.getEmail());
-                                onSuccess.accept(loginResponse);
+                        System.out.println("NIC: " + loginResponse.getNic());
+                        System.out.println("Name: " + loginResponse.getName());
+                        System.out.println("Email: " + loginResponse.getEmail());
+                        onSuccess.accept(loginResponse);
 
-                            } else {
-                                onError.accept("Unknown error occurred while logging in");
-                            }
-                        } else {
-                            // Handle unsuccessful response
-                            if (response.code() == 404) {
-                                // User not found
-                                onError.accept("User with NIC " + nic + " not found");
-                            } else {
-                                // Other errors, including "Incorrect Nic or password"
-                                onError.accept("NIC or password is incorrect");
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<LoginResponse> call, Throwable t) {
+                    } else {
                         onError.accept("Unknown error occurred while logging in");
+                    }
+                } else {
+                    // Handle unsuccessful response
+                    if (response.code() == 404) {
+                        // User not found
+                        onError.accept("User with NIC " + nic + " not found");
+                    }
+                    if (response.code() == 400) {
+                        // Password incorrect
+                        onError.accept("Your Account Deactivated. Please Contact Us");
+                    } else {
+
+                        onError.accept("Something went wrong");
 
                     }
-                });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                onError.accept("Unknown error occurred while logging in");
+
+            }
+        });
 
     }
 
@@ -104,6 +106,7 @@ public class LoginManager {
         editor.putString("nic", loginResponse.getNic());
         editor.putString("name", loginResponse.getName());
         editor.putString("email", loginResponse.getEmail());
+        editor.putString("password", loginResponse.getPassword());
         editor.putBoolean("isTraveler", loginResponse.isTraveler());
         editor.putBoolean("isAgent", loginResponse.isAgent());
         editor.putBoolean("isBackOffice", loginResponse.isBackOffice());
@@ -111,7 +114,7 @@ public class LoginManager {
 
     }
 
-    public void logout () {
+    public void logout() {
         setLoggedInState(false);
         Context context = ContextManager.getInstance().getApplicationContext();
         SharedPreferences.Editor editor = context.getSharedPreferences(loginStateFile, Context.MODE_PRIVATE).edit();
