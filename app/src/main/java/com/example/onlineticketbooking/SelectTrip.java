@@ -16,8 +16,6 @@ import com.example.onlineticketbooking.manager.ContextManager;
 import com.example.onlineticketbooking.manager.ReservationManager;
 import com.example.onlineticketbooking.models.search.SearchResponse;
 
-
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -87,34 +85,18 @@ public class SelectTrip extends AppCompatActivity {
 
     private void searchAvailableTrain() {
 
+
         String from = spnFrom.getSelectedItem().toString().toLowerCase();
         String to = spnTo.getSelectedItem().toString().toLowerCase();
-        int seat = Integer.parseInt(etSeat.getText().toString());
+        String seat = etSeat.getText().toString();
         String date = etDate.getText().toString();
-//        String dateTimeString = date + "T14:36:27.288Z";
-
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-
-//        try {
-//            dateTime = format.parse(originalFormattedDate);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-
-
-//        DateTimeFormatter formatter = null;
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-//            formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-//            dateTime = LocalDateTime.parse(dateTimeString, formatter);
-//
-//        }
 
         validateFields(from, to, seat, date);
 
         reservationManager.getAvailableTrain(
                 from,
                 to,
-                seat,
+                Integer.parseInt(seat),
                 originalFormattedDate,
                 searchResponse -> {
                     handleSearchSuccess(searchResponse);
@@ -125,7 +107,7 @@ public class SelectTrip extends AppCompatActivity {
 
     }
 
-    private void validateFields(String from, String to, int seat, String date) {
+    private void validateFields(String from, String to, String seat, String date) {
 
         if (from.isEmpty()) {
             spnFrom.requestFocus();
@@ -142,7 +124,7 @@ public class SelectTrip extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Please select a different destination", Toast.LENGTH_SHORT).show();
         }
 
-        if (seat <= 0) {
+        if (Integer.parseInt(seat) <= 0) {
             etSeat.requestFocus();
             Toast.makeText(getApplicationContext(), "Please enter the number of seats", Toast.LENGTH_SHORT).show();
         }
