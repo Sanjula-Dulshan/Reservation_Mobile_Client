@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 public class ReservationResponse {
-    @SerializedName("reservations")
+
     private List<Reservation> reservations;
 
     public List<Reservation> getReservations() {
@@ -14,29 +14,37 @@ public class ReservationResponse {
     }
 
     public class Reservation {
-        @SerializedName("id")
+
+
+
         private String id;
 
-        @SerializedName("userId")
+
         private String userId;
 
-        @SerializedName("trainId")
+
         private String trainId;
 
-        @SerializedName("fromStation")
+
         private String fromStation;
 
-        @SerializedName("toStation")
+
         private String toStation;
 
-        @SerializedName("noOfSeats")
+
         private int noOfSeats;
 
-        @SerializedName("date")
+
         private Date date;
 
-        @SerializedName("totalPrice")
+
         private int totalPrice;
+
+        private boolean isAgent;
+
+        private Date CreatedAt;
+
+        private Date UpdatedAt;
 
         // Other fields, getters, and setters as needed
 
