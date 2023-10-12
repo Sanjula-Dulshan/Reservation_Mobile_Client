@@ -3,9 +3,11 @@ package com.example.onlineticketbooking;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -46,31 +48,40 @@ public class SelectTrip extends AppCompatActivity {
         etSeat = findViewById(R.id.etSeat);
         etDate = findViewById(R.id.etDate);
         btnSearch = findViewById(R.id.btn_search);
+
         Calendar calendar = Calendar.getInstance();
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
         final int year = calendar.get(Calendar.YEAR);
         final int month = calendar.get(Calendar.MONTH);
 
+        seatInputValidation();
+
+        // Set the minimum date to today
+        calendar.set(year, month, day);
+        long minDate = calendar.getTimeInMillis();
+
+        // Set the maximum date to 30 days from today
+        calendar.add(Calendar.DAY_OF_MONTH, 30);
+        long maxDate = calendar.getTimeInMillis();
+
         etDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                datePickerDialog = new DatePickerDialog(SelectTrip.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        String formattedDate = String.format(Locale.US, "%04d-%02d-%02d", year, month + 1, dayOfMonth);
+                datePickerDialog = new DatePickerDialog(SelectTrip.this, (view, year, month, dayOfMonth) -> {
+                    String formattedDate = String.format(Locale.US, "%04d-%02d-%02d", year, month + 1, dayOfMonth);
 
-                        // Original date with time pattern
-                        SimpleDateFormat originalDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.set(year, month, dayOfMonth);
+                    SimpleDateFormat originalDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+                    Calendar selectedCalendar = Calendar.getInstance();
+                    selectedCalendar.set(year, month, dayOfMonth);
 
-                        // Format the date in the original pattern (yyyy-MM-ddTHH:mm:ss.SSSZ)
-                        originalFormattedDate = originalDateFormat.format(calendar.getTime());
+                    originalFormattedDate = originalDateFormat.format(selectedCalendar.getTime());
 
-                        // Set the formatted dates to etDate
-                        etDate.setText(formattedDate);
-                    }
+                    etDate.setText(formattedDate);
                 }, year, month, day);
+
+                datePickerDialog.getDatePicker().setMinDate(minDate);
+                datePickerDialog.getDatePicker().setMaxDate(maxDate);
+
                 datePickerDialog.show();
             }
 
@@ -91,7 +102,9 @@ public class SelectTrip extends AppCompatActivity {
         String seat = etSeat.getText().toString();
         String date = etDate.getText().toString();
 
-        validateFields(from, to, seat, date);
+        if (!validateFields(from, to, seat, date)) {
+            return;
+        }
 
         reservationManager.getAvailableTrain(
                 from,
@@ -107,35 +120,39 @@ public class SelectTrip extends AppCompatActivity {
 
     }
 
-    private void validateFields(String from, String to, String seat, String date) {
-
+    private boolean validateFields(String from, String to, String seat, String date) {
         if (from.isEmpty()) {
             spnFrom.requestFocus();
             Toast.makeText(getApplicationContext(), "Please select a starting point", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
         if (to.isEmpty()) {
             spnTo.requestFocus();
             Toast.makeText(getApplicationContext(), "Please select a destination", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
         if (from.equals(to)) {
             spnTo.requestFocus();
             Toast.makeText(getApplicationContext(), "Please select a different destination", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
-        if (Integer.parseInt(seat) <= 0) {
+        if (seat.isEmpty()) {
             etSeat.requestFocus();
             Toast.makeText(getApplicationContext(), "Please enter the number of seats", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
         if (date.isEmpty()) {
             etDate.requestFocus();
             Toast.makeText(getApplicationContext(), "Please select a date", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
+        return true;
     }
-
 
     private void handleSearchSuccess(SearchResponse searchResponse) {
         // Print the reservationResponse for debugging
@@ -149,6 +166,48 @@ public class SelectTrip extends AppCompatActivity {
     private void handleSearchFailed(String error) {
         Toast.makeText(this, error, Toast.LENGTH_LONG).show();
     }
+
+    private void seatInputValidation() {
+        // Custom InputFilter to restrict input to a single digit (1, 2, 3, or 4)
+        InputFilter inputFilter = new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end,
+                                       Spanned dest, int dstart, int dend) {
+                // If trying to enter more than one character, reject it
+                if ((dstart == dend && dend != 0) || (end - start) > 1)
+                    return "";
+
+                for (int i = start; i < end; i++) {
+                    char currentChar = source.charAt(i);
+                    if (currentChar != '1' && currentChar != '2' &&
+                            currentChar != '3' && currentChar != '4') {
+                        // Clear the field if an invalid digit is entered
+                        etSeat.setText("");
+                        return "";
+                    }
+                }
+                return null;  // Accept the input
+            }
+        };
+
+        etSeat.setFilters(new InputFilter[]{inputFilter});
+
+        etSeat.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    char pressedChar = (char) event.getUnicodeChar();
+                    if (pressedChar != '1' && pressedChar != '2' &&
+                            pressedChar != '3' && pressedChar != '4') {
+                        etSeat.setText("");
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+    }
+
 }
 
 
