@@ -3,25 +3,27 @@ package com.example.onlineticketbooking.manager;
 import com.example.onlineticketbooking.models.search.SearchRequestBody;
 import com.example.onlineticketbooking.models.search.SearchResponse;
 import com.example.onlineticketbooking.models.search.SearchService;
+
 import java.util.function.Consumer;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ReservationManager {
+public class SearchManager {
 
-    private static ReservationManager singleton;
+    private static SearchManager singleton;
     private final SearchService searchService;
 
 
-    public static ReservationManager getInstance() {
+    public static SearchManager getInstance() {
         if (singleton == null) {
-            singleton = new ReservationManager();
+            singleton = new SearchManager();
         }
         return singleton;
     }
 
-    private ReservationManager() {
+    private SearchManager() {
 
         searchService = NetworkManager.getInstance().createService(SearchService.class);
 

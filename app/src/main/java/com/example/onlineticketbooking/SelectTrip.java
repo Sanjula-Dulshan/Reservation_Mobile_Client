@@ -15,7 +15,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.onlineticketbooking.manager.ContextManager;
-import com.example.onlineticketbooking.manager.ReservationManager;
+import com.example.onlineticketbooking.manager.SearchManager;
 import com.example.onlineticketbooking.models.search.SearchResponse;
 
 import java.text.SimpleDateFormat;
@@ -30,7 +30,7 @@ public class SelectTrip extends AppCompatActivity {
     Spinner spnFrom, spnTo;
     DatePickerDialog datePickerDialog;
 
-    ReservationManager reservationManager;
+    SearchManager searchManager;
     // LocalDateTime dateTime;
 
     Date dateTime;
@@ -90,7 +90,7 @@ public class SelectTrip extends AppCompatActivity {
         btnSearch.setOnClickListener(view -> searchAvailableTrain());
 
         ContextManager.getInstance().setApplicationContext(getApplicationContext());
-        reservationManager = ReservationManager.getInstance();
+        searchManager = SearchManager.getInstance();
 
     }
 
@@ -106,7 +106,7 @@ public class SelectTrip extends AppCompatActivity {
             return;
         }
 
-        reservationManager.getAvailableTrain(
+        searchManager.getAvailableTrain(
                 from,
                 to,
                 Integer.parseInt(seat),
