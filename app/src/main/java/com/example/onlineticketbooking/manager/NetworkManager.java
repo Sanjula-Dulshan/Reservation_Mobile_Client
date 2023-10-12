@@ -15,7 +15,7 @@ public class NetworkManager {
     private static NetworkManager singleton;
 
     private Retrofit retrofit;
-    private final String baseUrl = "http://192.168.5.11:5000/api/";
+    private final String baseUrl = "http://192.168.1.101:5004/api/";
     private ConnectivityManager connectivityManager;
 
     public static NetworkManager getInstance() {
