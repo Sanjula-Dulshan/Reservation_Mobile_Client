@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.onlineticketbooking.manager.ContextManager;
 import com.example.onlineticketbooking.manager.ReservationManager;
-import com.example.onlineticketbooking.models.reservation.ReservationResponse;
+import com.example.onlineticketbooking.models.search.SearchResponse;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -114,8 +114,8 @@ public class SelectTrip extends AppCompatActivity {
                 to,
                 seat,
                 originalFormattedDate,
-                reservationResponse -> {
-                    handleSearchSuccess(reservationResponse);
+                searchResponse -> {
+                    handleSearchSuccess(searchResponse);
                 },
                 error -> handleSearchFailed(error));
 
@@ -151,12 +151,12 @@ public class SelectTrip extends AppCompatActivity {
 
     }
 
-    private void handleSearchSuccess(ReservationResponse reservationResponse) {
+    private void handleSearchSuccess(SearchResponse searchResponse) {
         // Print the reservationResponse for debugging
-        System.out.print("reservationResponse " + reservationResponse);
+        System.out.print("reservationResponse " + searchResponse);
         Toast.makeText(this, "Search Success", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, TrainList.class);
-        intent.putExtra("reservationResponse", reservationResponse);
+        intent.putExtra("reservationResponse", searchResponse);
         startActivity(intent);
     }
 

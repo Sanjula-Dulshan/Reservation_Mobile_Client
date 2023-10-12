@@ -7,12 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 public class TrainAdapter extends RecyclerView.Adapter<TrainAdapter.ViewHolder> {
-    private List<TrainSchedule> data;
+    private final List<TrainSchedule> data;
 
     public TrainAdapter(List<TrainSchedule> data) {
         this.data = data;
@@ -37,8 +39,11 @@ public class TrainAdapter extends RecyclerView.Adapter<TrainAdapter.ViewHolder> 
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView TrainName, DepTime, ArrTime, availableSeats;
-        private Button btnBookNow;
+        private final TextView TrainName;
+        private final TextView DepTime;
+        private final TextView ArrTime;
+        private final TextView availableSeats;
+        private final Button btnBookNow;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -46,7 +51,7 @@ public class TrainAdapter extends RecyclerView.Adapter<TrainAdapter.ViewHolder> 
             DepTime = itemView.findViewById(R.id.txtDepartTime);
             ArrTime = itemView.findViewById(R.id.txrArriveTime);
             availableSeats = itemView.findViewById(R.id.txtAvailableSeats);
-            btnBookNow  = itemView.findViewById(R.id.btnBookNow);
+            btnBookNow = itemView.findViewById(R.id.btnBookNow);
         }
 
         public void bind(TrainSchedule item) {
@@ -61,16 +66,15 @@ public class TrainAdapter extends RecyclerView.Adapter<TrainAdapter.ViewHolder> 
                     Context context = itemView.getContext();
 
                     Intent ticketSummary = new Intent(context, TicketSummary.class);
+                    ticketSummary.putExtra("trainId", item.getTrainId());
                     ticketSummary.putExtra("trainName", item.getTrainName());
                     ticketSummary.putExtra("departs", item.getDeparts());
                     ticketSummary.putExtra("arrives", item.getArrives());
-                    ticketSummary.putExtra("availableSeats", item.getAvailableSeats());
-                    ticketSummary.putExtra("totalPrice", "250.00" );
-                    ticketSummary.putExtra("noOfSeats", "3");
-                    ticketSummary.putExtra("startStation", "Matara");
-                    ticketSummary.putExtra("endStation", "Fort");
-                    ticketSummary.putExtra("date", "2023/10/10");
-
+                    ticketSummary.putExtra("totalPrice", item.getTotalPrice());
+                    ticketSummary.putExtra("noOfSeats", item.getNoOfSeats());
+                    ticketSummary.putExtra("startStation", item.getStartStation());
+                    ticketSummary.putExtra("endStation", item.getEndStation());
+                    ticketSummary.putExtra("date", item.getDate());
 
 
                     context.startActivity(ticketSummary);

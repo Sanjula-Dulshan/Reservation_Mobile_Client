@@ -12,15 +12,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       // getSupportActionBar().hide();
+        // getSupportActionBar().hide();
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(MainActivity.this, TripList.class));
+                startActivity(new Intent(MainActivity.this, Login.class));
                 finish();
             }
-        },2000);
+        }, 2000);
 
     }
 }
