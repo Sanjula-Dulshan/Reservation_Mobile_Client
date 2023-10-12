@@ -34,7 +34,7 @@
         android:layout_marginStart="32dp"
         android:ems="10"
         android:maxLength="1"
-        android:digits="1234"
+
         android:inputType="number"
         app:layout_constraintEnd_toStartOf="@+id/etDate"
         app:layout_constraintHorizontal_bias="0.449"

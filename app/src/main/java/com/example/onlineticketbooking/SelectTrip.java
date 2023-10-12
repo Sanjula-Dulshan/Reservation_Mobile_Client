@@ -3,6 +3,9 @@ package com.example.onlineticketbooking;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,11 +54,13 @@ public class SelectTrip extends AppCompatActivity {
         final int year = calendar.get(Calendar.YEAR);
         final int month = calendar.get(Calendar.MONTH);
 
+        seatInputValidation();
+
         // Set the minimum date to today
         calendar.set(year, month, day);
         long minDate = calendar.getTimeInMillis();
 
-// Set the maximum date to 30 days from today
+        // Set the maximum date to 30 days from today
         calendar.add(Calendar.DAY_OF_MONTH, 30);
         long maxDate = calendar.getTimeInMillis();
 
@@ -161,6 +166,48 @@ public class SelectTrip extends AppCompatActivity {
     private void handleSearchFailed(String error) {
         Toast.makeText(this, error, Toast.LENGTH_LONG).show();
     }
+
+    private void seatInputValidation() {
+        // Custom InputFilter to restrict input to a single digit (1, 2, 3, or 4)
+        InputFilter inputFilter = new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end,
+                                       Spanned dest, int dstart, int dend) {
+                // If trying to enter more than one character, reject it
+                if ((dstart == dend && dend != 0) || (end - start) > 1)
+                    return "";
+
+                for (int i = start; i < end; i++) {
+                    char currentChar = source.charAt(i);
+                    if (currentChar != '1' && currentChar != '2' &&
+                            currentChar != '3' && currentChar != '4') {
+                        // Clear the field if an invalid digit is entered
+                        etSeat.setText("");
+                        return "";
+                    }
+                }
+                return null;  // Accept the input
+            }
+        };
+
+        etSeat.setFilters(new InputFilter[]{inputFilter});
+
+        etSeat.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    char pressedChar = (char) event.getUnicodeChar();
+                    if (pressedChar != '1' && pressedChar != '2' &&
+                            pressedChar != '3' && pressedChar != '4') {
+                        etSeat.setText("");
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+    }
+
 }
 
 
