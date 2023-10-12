@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -46,31 +45,38 @@ public class SelectTrip extends AppCompatActivity {
         etSeat = findViewById(R.id.etSeat);
         etDate = findViewById(R.id.etDate);
         btnSearch = findViewById(R.id.btn_search);
+
         Calendar calendar = Calendar.getInstance();
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
         final int year = calendar.get(Calendar.YEAR);
         final int month = calendar.get(Calendar.MONTH);
 
+        // Set the minimum date to today
+        calendar.set(year, month, day);
+        long minDate = calendar.getTimeInMillis();
+
+// Set the maximum date to 30 days from today
+        calendar.add(Calendar.DAY_OF_MONTH, 30);
+        long maxDate = calendar.getTimeInMillis();
+
         etDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                datePickerDialog = new DatePickerDialog(SelectTrip.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        String formattedDate = String.format(Locale.US, "%04d-%02d-%02d", year, month + 1, dayOfMonth);
+                datePickerDialog = new DatePickerDialog(SelectTrip.this, (view, year, month, dayOfMonth) -> {
+                    String formattedDate = String.format(Locale.US, "%04d-%02d-%02d", year, month + 1, dayOfMonth);
 
-                        // Original date with time pattern
-                        SimpleDateFormat originalDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.set(year, month, dayOfMonth);
+                    SimpleDateFormat originalDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+                    Calendar selectedCalendar = Calendar.getInstance();
+                    selectedCalendar.set(year, month, dayOfMonth);
 
-                        // Format the date in the original pattern (yyyy-MM-ddTHH:mm:ss.SSSZ)
-                        originalFormattedDate = originalDateFormat.format(calendar.getTime());
+                    originalFormattedDate = originalDateFormat.format(selectedCalendar.getTime());
 
-                        // Set the formatted dates to etDate
-                        etDate.setText(formattedDate);
-                    }
+                    etDate.setText(formattedDate);
                 }, year, month, day);
+
+                datePickerDialog.getDatePicker().setMinDate(minDate);
+                datePickerDialog.getDatePicker().setMaxDate(maxDate);
+
                 datePickerDialog.show();
             }
 
