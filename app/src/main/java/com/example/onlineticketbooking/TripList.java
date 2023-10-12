@@ -41,10 +41,10 @@ public class TripList extends AppCompatActivity implements TripAdapter.OnItemCli
             System.out.println("Reservation Responses: " + reservationResponses);
 
             for (ReservationResponse reservationResponse : reservationResponses) {
-                for (ReservationResponse.Reservation reservation : reservationResponse.getReservations()) {
+                for (ReservationResponse reservation : reservationResponses) {
                     // Create TripHistory objects from the reservations and add to the data list
                     data.add(new TripHistory(
-                            reservation.getDate().toString(),
+                            "sdasdasd",
                             reservation.getFromStation(),
                             reservation.getToStation(),
                             reservation.getNoOfSeats(),

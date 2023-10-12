@@ -36,8 +36,8 @@ public class ReservationManager {
             @Override
             public void onResponse(Call<List<ReservationResponse>> call, Response<List<ReservationResponse>> response) {
                 if (response.isSuccessful()) {
-                    System.out.println("Response: ABC " + response.body().get(1).getReservations());
-                    System.out.println("Number of elements in the list: " + response.body().size());
+                    //System.out.println("Response: ABC " + response.body().get(1).getReservations());
+                    //System.out.println("Number of elements in the list: " + response.body().size());
 
                     //check if response is empty
                     if(response.body().isEmpty()){
@@ -50,7 +50,7 @@ public class ReservationManager {
                     if (reservationResponses != null && !reservationResponses.isEmpty()) {
 
                         // Print the reservationResponses (list of ReservationResponse objects)
-                        System.out.println("Reservation Responses XX: " + reservationResponses.get(0).getReservations());
+                        //System.out.println("Reservation Responses XX: " + reservationResponses.get(0).getReservations());
 
                         onSuccess.accept(reservationResponses);
                     } else {

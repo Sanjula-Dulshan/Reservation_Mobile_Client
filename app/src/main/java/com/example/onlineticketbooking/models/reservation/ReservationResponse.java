@@ -7,77 +7,56 @@ import java.util.List;
 
 public class ReservationResponse {
 
-    private List<Reservation> reservations;
+    private String id;
 
-    public List<Reservation> getReservations() {
-        return reservations;
+
+    private String userId;
+
+    private String trainId;
+
+
+    private String fromStation;
+
+
+    private String toStation;
+
+
+    private int noOfSeats;
+
+
+    private int totalPrice;
+
+    private boolean isAgent;
+
+    public String getId() {
+        return id;
     }
 
-    public class Reservation {
+    public String getUserId() {
+        return userId;
+    }
 
+    public String getTrainId() {
+        return trainId;
+    }
 
+    public String getFromStation() {
+        return fromStation;
+    }
 
-        private String id;
+    public String getToStation() {
+        return toStation;
+    }
 
+    public int getNoOfSeats() {
+        return noOfSeats;
+    }
 
-        private String userId;
+    public int getTotalPrice() {
+        return totalPrice;
+    }
 
-
-        private String trainId;
-
-
-        private String fromStation;
-
-
-        private String toStation;
-
-
-        private int noOfSeats;
-
-
-        private Date date;
-
-
-        private int totalPrice;
-
-        private boolean isAgent;
-
-        private Date CreatedAt;
-
-        private Date UpdatedAt;
-
-        // Other fields, getters, and setters as needed
-
-        public String getId() {
-            return id;
-        }
-
-        public String getUserId() {
-            return userId;
-        }
-
-        public String getTrainId() {
-            return trainId;
-        }
-
-        public String getFromStation() {
-            return fromStation;
-        }
-
-        public String getToStation() {
-            return toStation;
-        }
-
-        public int getNoOfSeats() {
-            return noOfSeats;
-        }
-
-        public Date getDate() {
-            return date;
-        }
-
-        public int getTotalPrice() {
-            return totalPrice;
-        }
+    public boolean isAgent() {
+        return isAgent;
     }
 }
