@@ -2,10 +2,22 @@ package com.example.onlineticketbooking;
 
 public class TripHistory {
     private String date;
+
+    public String getId() {
+        return id;
+    }
+
+    private String id;
     private String fromStation;
     private String toStation;
     private int numberOfSeats;
     private String price;
+
+    public String getUser_Id() {
+        return user_Id;
+    }
+
+    private String user_Id;
 
     public TripHistory(String date, String fromStation, String toStation, int numberOfSeats, String price) {
         this.date = date;

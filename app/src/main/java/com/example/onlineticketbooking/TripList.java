@@ -33,8 +33,7 @@ public class TripList extends AppCompatActivity implements TripAdapter.OnItemCli
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Retrieve user's NIC (user id) from SharedPreferences
-        Context context = ContextManager.getInstance().getApplicationContext();
-        SharedPreferences sharedPreferences = context.getSharedPreferences("loginstate", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("loginstate", Context.MODE_PRIVATE);
         String nic = sharedPreferences.getString("nic", "");
 
         // Fetch user's reservations list based on NIC
@@ -42,72 +41,54 @@ public class TripList extends AppCompatActivity implements TripAdapter.OnItemCli
             // Handle the successful response here
             List<TripHistory> data = new ArrayList<>();
 
-            // Print the reservationResponses (list of ReservationResponse objects)
-            System.out.println("Reservation Responses: " + reservationResponses);
-
-            Set<String> addedReservationIds = new HashSet<>(); // Set to keep track of added reservation IDs
-
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
             for (ReservationResponse reservationResponse : reservationResponses) {
                 String reservationId = reservationResponse.getId();
 
+                Date date = reservationResponse.getDate();
+                String formattedDate = dateFormat.format(date);
 
-                // Check if the reservation ID has not been added before
-                if (!addedReservationIds.contains(reservationId)) {
-
-                    Date date = reservationResponse.getDate();
-                    String formattedDate = dateFormat.format(date);
-
-                    // Create TripHistory object from the reservation and add to the data list
-                    data.add(new TripHistory(
-                            formattedDate,
-                            reservationResponse.getFromStation(),
-                            reservationResponse.getToStation(),
-                            reservationResponse.getNoOfSeats(),
-                            reservationId
-                    ));
-
-                    // Add the reservation ID to the set to mark it as added
-                    addedReservationIds.add(reservationId);
-                }
+                // Create TripHistory object from the reservation and add to the data list
+                data.add(new TripHistory(
+                        formattedDate,
+                        reservationResponse.getFromStation(),
+                        reservationResponse.getToStation(),
+                        reservationResponse.getNoOfSeats(),
+                        reservationId
+                ));
             }
 
             // Create and set the adapter with the fetched data
-            TripAdapter adapter = new TripAdapter(data);
-            adapter.setOnItemClickListener(this); // Set item click listener
+            TripAdapter adapter = new TripAdapter(data, this); // Pass this as the listener
             recyclerView.setAdapter(adapter);
         }, errorMessage -> {
             // Handle error while fetching reservations here
             System.out.println("Error: " + errorMessage);
-
-            // Display an error message to the user or perform appropriate error handling actions
             Toast.makeText(this, "Error: " + errorMessage, Toast.LENGTH_SHORT).show();
         });
     }
 
     @Override
     public void onDeleteClick(TripHistory item) {
+
+        System.out.println("Deleting Item: " + item.getPrice());
         // Handle Delete button click here
-        // You can access the item's properties (date, stations, seats, price) from the 'item' object
-        // For example: Toast.makeText(this, "Delete clicked for item with ID: " + item.getId(), Toast.LENGTH_SHORT).show();
+        ReservationManager.getInstance().deleteReservationDetails(item.getPrice(), response -> {
+            // Handle the successful response here
+            System.out.println("Response: " + response);
+            Toast.makeText(this, "Reservation deleted successfully", Toast.LENGTH_SHORT).show();
+            // You may choose to update the adapter data source and call notifyDataSetChanged()
+        }, errorMessage -> {
+            // Handle error while deleting reservation here
+            System.out.println("Error: " + errorMessage);
+            Toast.makeText(this, "Error: " + errorMessage, Toast.LENGTH_SHORT).show();
+        });
     }
 
     @Override
     public void onUpdateClick(TripHistory item) {
         // Handle Update button click here
-        // You can access the item's properties (date, stations, seats, price) from the 'item' object
-
-        // Create a new instance of the UpdateSeatsDialogFragment
-        UpdateSeatsDialogFragment dialogFragment = new UpdateSeatsDialogFragment();
-
-        // Pass the selected item data to the dialog fragment if needed
-        Bundle bundle = new Bundle();
-        bundle.putString("date", item.getDate());
-        // Add other item data as needed
-        dialogFragment.setArguments(bundle);
-
-        // Show the dialog fragment
-        dialogFragment.show(getSupportFragmentManager(), "UpdateSeatsDialogFragment");
+        // Create and show the update dialog fragment if needed
     }
 }
