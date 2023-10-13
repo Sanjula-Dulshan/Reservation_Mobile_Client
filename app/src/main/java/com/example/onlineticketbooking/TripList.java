@@ -50,12 +50,15 @@ public class TripList extends AppCompatActivity implements TripAdapter.OnItemCli
                 Date date = reservationResponse.getDate();
                 String formattedDate = dateFormat.format(date);
 
+                String price = Integer.toString(reservationResponse.getTotalPrice());
+
                 // Create TripHistory object from the reservation and add to the data list
                 data.add(new TripHistory(
                         formattedDate,
                         reservationResponse.getFromStation(),
                         reservationResponse.getToStation(),
                         reservationResponse.getNoOfSeats(),
+                        price,
                         reservationId
                 ));
             }
@@ -73,9 +76,9 @@ public class TripList extends AppCompatActivity implements TripAdapter.OnItemCli
     @Override
     public void onDeleteClick(TripHistory item) {
 
-        System.out.println("Deleting Item: " + item.getPrice());
+        System.out.println("Deleting Item: " + item.getId());
         // Handle Delete button click here
-        ReservationManager.getInstance().deleteReservationDetails(item.getPrice(), response -> {
+        ReservationManager.getInstance().deleteReservationDetails(item.getId(), response -> {
             // Handle the successful response here
             System.out.println("Response: " + response);
             Toast.makeText(this, "Reservation deleted successfully", Toast.LENGTH_SHORT).show();

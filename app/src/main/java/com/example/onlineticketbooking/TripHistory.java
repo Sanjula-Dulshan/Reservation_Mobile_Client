@@ -19,12 +19,13 @@ public class TripHistory {
 
     private String user_Id;
 
-    public TripHistory(String date, String fromStation, String toStation, int numberOfSeats, String price) {
+    public TripHistory(String date, String fromStation, String toStation, int numberOfSeats, String price, String id) {
         this.date = date;
         this.fromStation = fromStation;
         this.toStation = toStation;
         this.numberOfSeats = numberOfSeats;
         this.price = price;
+        this.id = id;
     }
 
     public String getDate() {
