@@ -39,6 +39,7 @@ public class TicketSummary extends Activity {
         txtEndStation = findViewById(id.txtEndStation);
         txtDate = findViewById(id.txtDepartureDate);
         btnConfirmBooking = findViewById(id.btnConfirmBooking);
+        btnCancel = findViewById(id.btnCancel);
 
         Context context = ContextManager.getInstance().getApplicationContext();
         SharedPreferences sharedPreferences = context.getSharedPreferences(loginStateFile, Context.MODE_PRIVATE);
