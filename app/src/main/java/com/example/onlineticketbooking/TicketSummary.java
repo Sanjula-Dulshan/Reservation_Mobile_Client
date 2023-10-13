@@ -4,13 +4,26 @@ import static com.example.onlineticketbooking.R.id;
 import static com.example.onlineticketbooking.R.layout;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.onlineticketbooking.manager.ContextManager;
+import com.example.onlineticketbooking.manager.ReservationManager;
 
 public class TicketSummary extends Activity {
 
+    String userId, trainName, trainId, departs, arrives, availableSeats, totalPrice, noOfSeats, startStation, endStation, date;
     TextView txtTrainName, txtTimeStartEnd, txtAvailableSeats, txtTotalPrice, txtNoOfSeats, txtStartStation, txtEndStation, txtDate;
+    Button btnConfirmBooking;
+    ReservationManager reservationManager;
+
+    private final String loginStateFile = "loginstate";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,18 +38,24 @@ public class TicketSummary extends Activity {
         txtStartStation = findViewById(id.txtStartStation);
         txtEndStation = findViewById(id.txtEndStation);
         txtDate = findViewById(id.txtDepartureDate);
+        btnConfirmBooking = findViewById(id.btnConfirmBooking);
+
+        Context context = ContextManager.getInstance().getApplicationContext();
+        SharedPreferences sharedPreferences = context.getSharedPreferences(loginStateFile, Context.MODE_PRIVATE);
+        userId = sharedPreferences.getString("nic", "");
 
 
         Intent intent = getIntent();
-        String trainName = intent.getStringExtra("trainName");
-        String departs = intent.getStringExtra("departs");
-        String arrives = intent.getStringExtra("arrives");
-        String availableSeats = intent.getStringExtra("availableSeats");
-        String totalPrice = intent.getStringExtra("totalPrice");
-        String noOfSeats = intent.getStringExtra("noOfSeats");
-        String startStation = intent.getStringExtra("startStation");
-        String endStation = intent.getStringExtra("endStation");
-        String date = intent.getStringExtra("date");
+        trainName = intent.getStringExtra("trainName");
+        trainId = intent.getStringExtra("trainId");
+        departs = intent.getStringExtra("departs");
+        arrives = intent.getStringExtra("arrives");
+        availableSeats = intent.getStringExtra("availableSeats");
+        totalPrice = intent.getStringExtra("totalPrice");
+        noOfSeats = intent.getStringExtra("noOfSeats");
+        startStation = intent.getStringExtra("startStation");
+        endStation = intent.getStringExtra("endStation");
+        date = intent.getStringExtra("date");
 
         txtTrainName.setText(capitalizeFirstLetterOfEachWord(trainName));
         txtTimeStartEnd.setText(departs + " - " + arrives);
@@ -47,7 +66,26 @@ public class TicketSummary extends Activity {
         txtEndStation.setText(capitalizeFirstLetterOfEachWord(endStation));
         txtDate.setText(date);
 
+        btnConfirmBooking.setOnClickListener(view -> addReservation());
 
+        ContextManager.getInstance().setApplicationContext(getApplicationContext());
+        reservationManager = ReservationManager.getInstance();
+
+    }
+
+    private void addReservation() {
+        reservationManager.addReservation(userId, trainId, startStation, endStation, Integer.parseInt(noOfSeats), date, Double.parseDouble(totalPrice), () -> handleAddReservationSuccess(), error -> handleAddReservationFailed(error));
+
+    }
+
+    private void handleAddReservationSuccess() {
+        Toast.makeText(this, "Reservation added successfully", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(getApplicationContext(), Home.class);
+        startActivity(intent);
+    }
+
+    private void handleAddReservationFailed(String error) {
+        Toast.makeText(this, error, Toast.LENGTH_LONG).show();
     }
 
     private static String capitalizeFirstLetterOfEachWord(String input) {

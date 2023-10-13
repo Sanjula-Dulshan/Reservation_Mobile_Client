@@ -34,7 +34,7 @@ public class RegisterManager {
 
         if (name == null || name.length() == 0)
             return "Name is required";
-        
+
         if (email == null || email.length() == 0)
             return "Email is required";
 
@@ -70,7 +70,7 @@ public class RegisterManager {
 
                     System.out.print("registerResponse.getMessage() " + registerResponse.getMessage());
 
-                    if (registerResponse.getMessage() == "User registered successfully") {
+                    if ("User registered successfully.".equals(registerResponse.getMessage())) {
                         onSuccess.run();
                     } else {
                         onError.accept(registerResponse.getMessage());
