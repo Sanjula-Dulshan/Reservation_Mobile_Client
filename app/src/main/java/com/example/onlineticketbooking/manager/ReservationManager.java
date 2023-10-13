@@ -1,8 +1,6 @@
 package com.example.onlineticketbooking.manager;
 
 import androidx.core.util.Consumer;
-
-import com.example.onlineticketbooking.models.reservation.ReservationRequestBody;
 import com.example.onlineticketbooking.models.reservation.ReservationResponse;
 import com.example.onlineticketbooking.models.reservation.ReservationService;
 
@@ -14,7 +12,7 @@ import retrofit2.Response;
 
 public class ReservationManager {
     private static ReservationManager singleton;
-    private final ReservationService reservationService;
+    private ReservationService reservationService;
 
     public static ReservationManager getInstance() {
         if (singleton == null)
@@ -42,7 +40,7 @@ public class ReservationManager {
                     //System.out.println("Number of elements in the list: " + response.body().size());
 
                     //check if response is empty
-                    if (response.body().isEmpty()) {
+                    if(response.body().isEmpty()){
                         System.out.println("No reservations found");
                         onError.accept("No reservations found");
                         return;
@@ -71,32 +69,37 @@ public class ReservationManager {
         });
     }
 
-    public void addReservation(String userId, String trainId, String fromStation, String toStation, int noOfSeats, String date, double totalPrice, Runnable onSuccess, Consumer<String> onError) {
+    public void deleteReservationDetails (String userId, Consumer<List<ReservationResponse>> onSuccess, Consumer<String> onError) {
         if (!NetworkManager.getInstance().isNetworkAvailable()) {
             onError.accept("No internet connectivity");
             return;
         }
 
-        ReservationRequestBody body = new ReservationRequestBody(userId, trainId, fromStation, toStation, noOfSeats, date, totalPrice);
-        reservationService.addReservation(body).enqueue(new Callback<ReservationResponse>() {
+        reservationService.deleteReservationDetails(userId).enqueue(new Callback<List<ReservationResponse>>() {
+
+
             @Override
-            public void onResponse(Call<ReservationResponse> call, Response<ReservationResponse> response) {
+            public void onResponse(Call<List<ReservationResponse>> call, Response<List<ReservationResponse>> response) {
+                //print id to be deleted
+                System.out.println("ID to delete>>: " + userId);
                 if (response.isSuccessful()) {
-                    ReservationResponse reservationResponse = response.body();
-                    if (reservationResponse != null) {
-                        onSuccess.run();
+                    List<ReservationResponse> reservationResponses = response.body();
+                    if (reservationResponses != null && !reservationResponses.isEmpty()) {
+                        onSuccess.accept(reservationResponses);
                     } else {
-                        onError.accept("Unknown error occurred while adding reservation");
+                        onError.accept("Empty or null response received while deleting reservation details");
                     }
                 } else {
-                    onError.accept("Failed to add reservation: " + response.message());
+                    onError.accept("Failed to delete reservation details: " + response.message());
                 }
             }
 
             @Override
-            public void onFailure(Call<ReservationResponse> call, Throwable t) {
-                onError.accept("Unknown error occurred while adding reservation");
+            public void onFailure(Call<List<ReservationResponse>> call, Throwable t) {
+                onError.accept("Unknown error occurred while deleting reservation details");
             }
         });
     }
+
+
 }
