@@ -5,18 +5,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.List;
 
 public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
     private List<TripHistory> data;
     private OnItemClickListener listener;
 
-    public TripAdapter(List<TripHistory> data, OnItemClickListener listener) {
+    public TripAdapter(List<TripHistory> data) {
         this.data = data;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
 
@@ -38,7 +39,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
         return data.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView txtDate, txtFromStation, txtToStation, txtSeats, txtPrice;
         private Button btnDelete, btnUpdate;
 
@@ -63,14 +64,18 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
             btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onDeleteClick(item);
+                    if (listener != null) {
+                        listener.onDeleteClick(item);
+                    }
                 }
             });
 
             btnUpdate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onUpdateClick(item);
+                    if (listener != null) {
+                        listener.onUpdateClick(item);
+                    }
                 }
             });
         }
