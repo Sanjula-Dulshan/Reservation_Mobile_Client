@@ -98,4 +98,43 @@ public class ReservationManager {
             }
         });
     }
+
+    public void deleteReservationDetails (String userId, Consumer<List<ReservationResponse>> onSuccess, Consumer<String> onError) {
+        if (!NetworkManager.getInstance().isNetworkAvailable()) {
+            onError.accept("No internet connectivity");
+            return;
+        }
+
+        reservationService.deleteReservationDetails(userId).enqueue(new Callback<List<ReservationResponse>>() {
+
+
+            @Override
+            public void onResponse(Call<List<ReservationResponse>> call, Response<List<ReservationResponse>> response) {
+                //print id to be deleted
+                System.out.println("ID to delete>>: " + userId);
+                if (response.isSuccessful()) {
+                    List<ReservationResponse> reservationResponses = response.body();
+                    if (reservationResponses != null && !reservationResponses.isEmpty()) {
+                        onSuccess.accept(reservationResponses);
+                    } else {
+                        onError.accept("Empty or null response received while deleting reservation details");
+                    }
+                } else {
+                    onError.accept("Failed to delete reservation details: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ReservationResponse>> call, Throwable t) {
+                onError.accept("Unknown error occurred while deleting reservation details");
+            }
+        });
+    }
+
+    public void updateReservationDetails (String userId, Consumer<List<ReservationResponse>> onSuccess, Consumer<String> onError) {
+        if (!NetworkManager.getInstance().isNetworkAvailable()) {
+            onError.accept("No internet connectivity");
+            return;
+        }
+    }
 }
