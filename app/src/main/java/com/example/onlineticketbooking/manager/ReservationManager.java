@@ -29,8 +29,7 @@ public class ReservationManager {
             onError.accept("No internet connectivity");
             return;
         }
-
-        System.out.println("ID>>: " + userId);
+        
 
         reservationService.getReservationDetails(userId).enqueue(new Callback<List<ReservationResponse>>() {
             @Override
