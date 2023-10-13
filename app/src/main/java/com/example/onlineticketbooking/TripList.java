@@ -14,8 +14,13 @@ import com.example.onlineticketbooking.manager.ReservationManager;
 import com.example.onlineticketbooking.models.reservation.ReservationResponse;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class TripList extends AppCompatActivity implements TripAdapter.OnItemClickListener {
 
@@ -40,18 +45,34 @@ public class TripList extends AppCompatActivity implements TripAdapter.OnItemCli
             // Print the reservationResponses (list of ReservationResponse objects)
             System.out.println("Reservation Responses: " + reservationResponses);
 
+            Set<String> addedReservationIds = new HashSet<>(); // Set to keep track of added reservation IDs
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
             for (ReservationResponse reservationResponse : reservationResponses) {
-                for (ReservationResponse reservation : reservationResponses) {
-                    // Create TripHistory objects from the reservations and add to the data list
+                String reservationId = reservationResponse.getId();
+
+
+                // Check if the reservation ID has not been added before
+                if (!addedReservationIds.contains(reservationId)) {
+
+                    Date date = reservationResponse.getDate();
+                    String formattedDate = dateFormat.format(date);
+
+                    // Create TripHistory object from the reservation and add to the data list
                     data.add(new TripHistory(
-                            "sdasdasd",
-                            reservation.getFromStation(),
-                            reservation.getToStation(),
-                            reservation.getNoOfSeats(),
-                            reservation.getId()
+                            formattedDate,
+                            reservationResponse.getFromStation(),
+                            reservationResponse.getToStation(),
+                            reservationResponse.getNoOfSeats(),
+                            reservationId
                     ));
+
+                    // Add the reservation ID to the set to mark it as added
+                    addedReservationIds.add(reservationId);
                 }
             }
+
             // Create and set the adapter with the fetched data
             TripAdapter adapter = new TripAdapter(data);
             adapter.setOnItemClickListener(this); // Set item click listener
