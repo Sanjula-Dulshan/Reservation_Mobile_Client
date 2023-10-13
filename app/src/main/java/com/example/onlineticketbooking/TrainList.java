@@ -75,7 +75,7 @@ public class TrainList extends AppCompatActivity {
                     String date = dateTimeParts[0];
 
 
-                    TrainSchedule schedule = new TrainSchedule(trainId, trainName, String.valueOf(availableSeats), startStation, startTime, endStation, endTime, String.valueOf(noOfSeats), String.valueOf(searchResponse.getTotalPrice()), date);
+                    TrainSchedule schedule = new TrainSchedule(trainId, trainName, String.valueOf(availableSeats), startStation, startTime, endStation, endTime, String.valueOf(noOfSeats), String.valueOf(searchResponse.getTotalPrice()), dateTimeString);
                     data.add(schedule);
                 } catch (ParseException e) {
                     e.printStackTrace();
