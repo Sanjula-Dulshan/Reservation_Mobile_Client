@@ -21,7 +21,7 @@ public interface ReservationService {
     Call<List<ReservationResponse>> deleteReservationDetails(@Path("userId") String userId);
 
     @PUT("Reservation/{userId}")
-    Call<List<ReservationResponse>> updateReservationDetails(@Path("userId") String userId);
+    Call<List<ReservationResponse>> updateReservationDetails(@Path("userId") String userId,@Body ReservationRequestBody requestBody);
 
 
 }

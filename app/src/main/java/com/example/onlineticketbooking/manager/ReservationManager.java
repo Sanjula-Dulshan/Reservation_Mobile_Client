@@ -137,4 +137,33 @@ public class ReservationManager {
             return;
         }
     }
+
+    public void updateReservation(String reservationId, ReservationRequestBody updatedBody) {
+        if (!NetworkManager.getInstance().isNetworkAvailable()) {
+            //onError.accept("No internet connectivity");
+            return;
+        }
+
+        reservationService.updateReservationDetails(reservationId, updatedBody).enqueue(new Callback<List<ReservationResponse>>() {
+            @Override
+            public void onResponse(Call<List<ReservationResponse>> call, Response<List<ReservationResponse>> response) {
+                if (response.isSuccessful()) {
+                    List<ReservationResponse> reservationResponses = response.body();
+                    if (reservationResponses != null && !reservationResponses.isEmpty()) {
+                        //onSuccess.accept(reservationResponses);
+                    } else {
+                        //onError.accept("Empty or null response received while updating reservation details");
+                    }
+                } else {
+                    //onError.accept("Failed to update reservation details: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ReservationResponse>> call, Throwable t) {
+                //onError.accept("Unknown error occurred while updating reservation details");
+            }
+        });
+
+    }
 }
