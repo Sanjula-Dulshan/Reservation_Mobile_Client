@@ -13,27 +13,38 @@
         android:elevation="8dp"
         android:layout_gravity="center">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:text="Enter new ticket count"
+            android:textColor="#000000"
+            android:textSize="20sp" />
         <EditText
             android:id="@+id/editSeats"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter new seats count"
-            android:padding="12dp"
             android:background="#F2F2F2"
+            android:gravity="center"
+            android:hint="Enter new seats count"
             android:inputType="number"
-            android:gravity="center"/>
+            android:padding="12dp"
+            android:textColor="#000000" />
 
         <Button
             android:id="@+id/btnUpdateSeats"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="#4CAF50"
-            android:textColor="#FFFFFF"
-            android:text="Update"
-            android:textSize="18sp"
+            android:onClick="onUpdateSeatsClicked"
             android:padding="16dp"
-            android:onClick="onUpdateSeatsClicked"/>
+            android:text="Update"
+            android:backgroundTint="@color/btnColor"
+            android:textColor="#FFFFFF"
+            android:textColorHighlight="#FFC107"
+            android:textColorLink="#FFC107"
+            android:textSize="18sp" />
 
         <Space
             android:layout_width="match_parent"
@@ -43,8 +54,8 @@
             android:id="@+id/btnCancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#cfd0d1"
-            android:textColor="#FFFFFF"
+            android:backgroundTint="#c9c9c5"
+            android:textColor="#000000"
             android:text="Cancel"
             android:textSize="18sp"
             android:padding="16dp"

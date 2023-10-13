@@ -74,7 +74,7 @@ public class TicketSummary extends Activity {
     }
 
     private void addReservation() {
-        reservationManager.addReservation(userId, trainId, startStation, endStation, Integer.parseInt(noOfSeats), date, Double.parseDouble(totalPrice), () -> handleAddReservationSuccess(), error -> handleAddReservationFailed(error));
+       // reservationManager.addReservation(userId, trainId, startStation, endStation, Integer.parseInt(noOfSeats), date, Double.parseDouble(totalPrice), () -> handleAddReservationSuccess(), error -> handleAddReservationFailed(error));
 
     }
 
