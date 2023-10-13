@@ -101,5 +101,14 @@ public class ReservationManager {
         });
     }
 
+    public void updateReservationDetails (String userId, Consumer<List<ReservationResponse>> onSuccess, Consumer<String> onError) {
+        if (!NetworkManager.getInstance().isNetworkAvailable()) {
+            onError.accept("No internet connectivity");
+            return;
+        }
+    }
+
+
+
 
 }

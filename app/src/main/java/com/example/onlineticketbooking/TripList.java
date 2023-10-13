@@ -1,6 +1,7 @@
 package com.example.onlineticketbooking;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -86,9 +87,38 @@ public class TripList extends AppCompatActivity implements TripAdapter.OnItemCli
         });
     }
 
+
+
     @Override
     public void onUpdateClick(TripHistory item) {
         // Handle Update button click here
         // Create and show the update dialog fragment if needed
+
+        //show update seat dialog fragment
+        UpdateSeatsDialogFragment updateSeatDialogFragment = new UpdateSeatsDialogFragment();
+        updateSeatDialogFragment.show(getSupportFragmentManager(), "Update Seat Dialog Fragment");
+
+        //get item.getNumberOfSeats() and convert to String
+        String noOfSeats = Integer.toString(item.getNumberOfSeats());
+
+        //pass data to update seat dialog fragment
+        Bundle bundle = new Bundle();
+        bundle.putString("reservationId", item.getPrice());
+        bundle.putString("noOfSeats", noOfSeats);
+        bundle.putString("fromStation", item.getFromStation());
+        bundle.putString("toStation", item.getToStation());
+        bundle.putString("date", item.getDate());
+        bundle.putString("userId", item.getUser_Id());
+        bundle.putString("id", item.getId());
+
+        updateSeatDialogFragment.setArguments(bundle);
+
+        //update seat dialog fragment
+
+
+
+
+
+
     }
 }
