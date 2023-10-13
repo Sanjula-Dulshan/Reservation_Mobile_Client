@@ -7,6 +7,4 @@ import retrofit2.http.POST;
 public interface LoginService {
     @POST("user/login")
     Call<LoginResponse> login(@Body LoginRequestBody request);
-
-    
 }

@@ -9,6 +9,5 @@ public class LoginDto {
     public boolean isAgent;
     public boolean isTraveler;
     public boolean isBackOffice;
-
-
+    
 }

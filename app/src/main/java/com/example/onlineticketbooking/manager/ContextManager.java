@@ -11,7 +11,7 @@ public class ContextManager {
             singleton = new ContextManager();
         return singleton;
     }
-
+    
     public void setApplicationContext(Context applicationContext) {
         this.applicationContext = applicationContext;
     }

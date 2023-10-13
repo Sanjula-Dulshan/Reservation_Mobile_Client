@@ -49,7 +49,6 @@ public class Home extends AppCompatActivity {
             public void onClick(View view) {
                 Intent selectTrip = new Intent(getApplicationContext(), SelectTrip.class);
                 startActivity(selectTrip);
-
             }
         });
 
@@ -58,7 +57,6 @@ public class Home extends AppCompatActivity {
             public void onClick(View view) {
                 Intent tripHistory = new Intent(getApplicationContext(), TripList.class);
                 startActivity(tripHistory);
-
             }
         });
 
@@ -67,15 +65,11 @@ public class Home extends AppCompatActivity {
             public void onClick(View view) {
                 Intent profile = new Intent(getApplicationContext(), Profile.class);
                 startActivity(profile);
-
             }
         });
-
-
     }
 
     private void logout() {
-
         loginManager = LoginManager.getInstance();
         loginManager.logout();
 
