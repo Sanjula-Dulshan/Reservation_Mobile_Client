@@ -37,9 +37,6 @@ public class Home extends AppCompatActivity {
         boolean isAgent = sharedPreferences.getBoolean("isAgent", false);
         boolean isBackOffice = sharedPreferences.getBoolean("isBackOffice", false);
 
-        System.out.println("NIC>>: " + nic);
-        System.out.println("Name: " + name);
-
 
         btnLogOut = findViewById(R.id.btnLogout);
         btnBooking = findViewById(R.id.btnBook);

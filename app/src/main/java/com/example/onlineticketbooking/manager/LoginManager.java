@@ -3,10 +3,13 @@ package com.example.onlineticketbooking.manager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.widget.Toast;
 
 import androidx.core.util.Consumer;
 
 import com.example.onlineticketbooking.Login;
+import com.example.onlineticketbooking.models.login.LoginEntity;
 import com.example.onlineticketbooking.models.login.LoginRequestBody;
 import com.example.onlineticketbooking.models.login.LoginResponse;
 import com.example.onlineticketbooking.models.login.LoginService;
@@ -16,6 +19,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginManager {
+    private final DatabaseManager databaseManager;
+
     private static LoginManager singleton;
     private final LoginService loginService;
     private final String loginStateFile = "loginstate";
@@ -29,6 +34,7 @@ public class LoginManager {
     }
 
     private LoginManager() {
+        databaseManager = DatabaseManager.getInstance();
         loginService = NetworkManager.getInstance().createService(LoginService.class);
     }
 
@@ -57,11 +63,34 @@ public class LoginManager {
                 if (response.isSuccessful()) {
                     LoginResponse loginResponse = response.body();
                     if (loginResponse != null) {
+                        // Perform database insertion in a background thread
+                        new AsyncTask<Void, Void, Void>() {
+                            @Override
+                            protected Void doInBackground(Void... voids) {
+                                databaseManager.db().LoginDao().removeAll();
+                                insertLoginDetails(loginResponse);
+                                return null;
+                            }
 
-                        System.out.println("NIC: " + loginResponse.getNic());
-                        System.out.println("Name: " + loginResponse.getName());
-                        System.out.println("Email: " + loginResponse.getEmail());
-                        onSuccess.accept(loginResponse);
+                            @Override
+                            protected void onPostExecute(Void aVoid) {
+                                // This is where you can update the UI or perform any post-database operation logic.
+                                if (loginResponse != null) {
+                                    System.out.println("\nNIC: " + loginResponse.getNic());
+                                    System.out.println("Name: " + loginResponse.getName());
+                                    System.out.println("Email: " + loginResponse.getEmail());
+
+                                    Context context = ContextManager.getInstance().getApplicationContext();
+                                    // Add toast message for login success
+                                    Toast.makeText(context, "Login Successful", Toast.LENGTH_SHORT).show();
+
+                                    System.out.print("Navigate to home");
+
+                                    onSuccess.accept(loginResponse);
+                                }
+                            }
+                        }.execute();
+                        
 
                     } else {
                         onError.accept("Unknown error occurred while logging in");
@@ -90,6 +119,20 @@ public class LoginManager {
             }
         });
 
+    }
+
+
+    private void insertLoginDetails(LoginResponse loginResponse) {
+        LoginEntity loginEntity = new LoginEntity();
+        loginEntity.nic = loginResponse.getNic();
+        loginEntity.name = loginResponse.getName();
+        loginEntity.email = loginResponse.getEmail();
+        loginEntity.password = loginResponse.getPassword();
+        loginEntity.isAgent = loginResponse.isAgent();
+        loginEntity.isTraveler = loginResponse.isTraveler();
+        loginEntity.isBackOffice = loginResponse.isBackOffice();
+
+        databaseManager.db().LoginDao().insert(loginEntity);
     }
 
     public void setLoggedInState(boolean isLoggedIn) {
