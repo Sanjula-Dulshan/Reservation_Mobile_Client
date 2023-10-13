@@ -19,7 +19,7 @@ public class TicketSummary extends Activity {
 
     String userId, trainName, trainId, departs, arrives, availableSeats, totalPrice, noOfSeats, startStation, endStation, date;
     TextView txtTrainName, txtTimeStartEnd, txtAvailableSeats, txtTotalPrice, txtNoOfSeats, txtStartStation, txtEndStation, txtDate;
-    Button btnConfirmBooking;
+    Button btnConfirmBooking, btnCancel;
     ReservationManager reservationManager;
 
     private final String loginStateFile = "loginstate";
@@ -67,6 +67,11 @@ public class TicketSummary extends Activity {
         txtDate.setText(date);
 
         btnConfirmBooking.setOnClickListener(view -> addReservation());
+
+        btnCancel.setOnClickListener(view -> {
+            Intent intent1 = new Intent(getApplicationContext(), Home.class);
+            startActivity(intent1);
+        });
 
         ContextManager.getInstance().setApplicationContext(getApplicationContext());
         reservationManager = ReservationManager.getInstance();

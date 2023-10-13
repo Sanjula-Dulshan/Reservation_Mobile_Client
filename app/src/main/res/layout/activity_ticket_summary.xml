@@ -183,14 +183,27 @@
 
         <Button
             android:id="@+id/btnConfirmBooking"
-            android:layout_width="303dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="50dp"
+            android:layout_width="140dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="48dp"
             android:backgroundTint="@color/btnColor"
-            android:text="Confirm Booking"
+            android:text="Confirm"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.94"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="140dp"
+            android:layout_height="55dp"
+            android:backgroundTint="@color/btnColor"
+            android:text="Cancel"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnConfirmBooking"
+            app:layout_constraintHorizontal_bias="0.295"
+            app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
