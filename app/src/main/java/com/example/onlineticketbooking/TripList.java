@@ -76,7 +76,8 @@ public class TripList extends AppCompatActivity implements TripAdapter.OnItemCli
                         reservationResponse.getToStation(),
                         reservationResponse.getNoOfSeats(),
                         String.valueOf(reservationResponse.getTotalPrice()), // int to String
-                        reservationResponse.getId()
+                        reservationResponse.getId(),
+                        reservationResponse.getTrainId()
                 ));
             }
 
@@ -105,7 +106,9 @@ public class TripList extends AppCompatActivity implements TripAdapter.OnItemCli
     @Override
     public void onUpdateClick(TripHistory item) {
         // Handle Update button click here
-
+        // Retrieve user's NIC (user id) from SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("loginstate", Context.MODE_PRIVATE);
+        String nic = sharedPreferences.getString("nic", "");
 
         // Pass data to the UpdateSeatsDialogFragment
         Bundle bundle = new Bundle();
@@ -114,6 +117,9 @@ public class TripList extends AppCompatActivity implements TripAdapter.OnItemCli
         bundle.putString("fromStation", item.getFromStation());
         bundle.putString("toStation", item.getToStation());
         bundle.putString("date", item.getDate());
+        bundle.putString("totalPrice", item.getPrice());
+        bundle.putString("userId", nic);
+        bundle.putString("trainId", item.getTrain_Id());
 
         UpdateSeatsDialogFragment updateSeatDialogFragment = new UpdateSeatsDialogFragment();
         updateSeatDialogFragment.setArguments(bundle);

@@ -14,6 +14,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.onlineticketbooking.manager.ReservationManager;
 import com.example.onlineticketbooking.models.reservation.ReservationRequestBody;
+import com.example.onlineticketbooking.models.reservation.ReservationUpdateBody;
 
 public class UpdateSeatsDialogFragment extends DialogFragment {
 
@@ -51,13 +52,22 @@ public class UpdateSeatsDialogFragment extends DialogFragment {
             public void onClick(View v) {
                 // Get the updated seat count from the textview
                 String updatedSeatCount = txtSeats.getText().toString();
+                int updatedSeatCountInt = Integer.parseInt(updatedSeatCount);
+
+                String longDate = date+"T00:00:00Z";
+
+                //convert totalPrice to double
+                double price = Double.parseDouble(totalPrice);
 
 //                // Use SharedPreferences from the parent activity
 //                SharedPreferences.Editor editor = sharedPreferences.edit();
 //                editor.putString("updatedSeatCount", updatedSeatCount);
 //                editor.apply();
 
-                // Handle the rest of your logic here
+                ReservationUpdateBody body = new ReservationUpdateBody(reservationId, userId, trainId, fromStation, toStation, updatedSeatCountInt, longDate, price);
+
+                System.out.println("Class created");                // update reservation
+                ReservationManager.getInstance().updateReservation(reservationId, body);
 
                 // Close the dialog
                 dismiss();

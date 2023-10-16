@@ -15,6 +15,9 @@ import android.widget.Toast;
 import com.example.onlineticketbooking.manager.ContextManager;
 import com.example.onlineticketbooking.manager.ReservationManager;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class TicketSummary extends Activity {
 
     String userId, trainName, trainId, departs, arrives, availableSeats, totalPrice, noOfSeats, startStation, endStation, date;
@@ -58,6 +61,8 @@ public class TicketSummary extends Activity {
         endStation = intent.getStringExtra("endStation");
         date = intent.getStringExtra("date");
 
+        System.out.println("Train Date: " + date);
+
         txtTrainName.setText(capitalizeFirstLetterOfEachWord(trainName));
         txtTimeStartEnd.setText(departs + " - " + arrives);
         txtAvailableSeats.setText(availableSeats);
@@ -80,6 +85,7 @@ public class TicketSummary extends Activity {
     }
 
     private void addReservation() {
+        System.out.println("Train Date 2: " + date);
         reservationManager.addReservation(userId, trainId, startStation, endStation, Integer.parseInt(noOfSeats), date, Double.parseDouble(totalPrice), () -> handleAddReservationSuccess(), error -> handleAddReservationFailed(error));
 
     }

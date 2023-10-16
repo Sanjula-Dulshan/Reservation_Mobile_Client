@@ -13,19 +13,26 @@ public class TripHistory {
     private int numberOfSeats;
     private String price;
 
+    private String trainId;
+
+    public String getTrain_Id() {
+        return trainId;
+    }
+
     public String getUser_Id() {
         return user_Id;
     }
 
     private String user_Id;
 
-    public TripHistory(String date, String fromStation, String toStation, int numberOfSeats, String price, String id) {
+    public TripHistory(String date, String fromStation, String toStation, int numberOfSeats, String price, String id, String trtid) {
         this.date = date;
         this.fromStation = fromStation;
         this.toStation = toStation;
         this.numberOfSeats = numberOfSeats;
         this.price = price;
         this.id = id;
+        this.trainId = trtid;
     }
 
     public String getDate() {

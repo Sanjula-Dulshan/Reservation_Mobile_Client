@@ -1,10 +1,13 @@
 package com.example.onlineticketbooking.manager;
 
+import android.widget.Toast;
+
 import androidx.core.util.Consumer;
 
 import com.example.onlineticketbooking.models.reservation.ReservationRequestBody;
 import com.example.onlineticketbooking.models.reservation.ReservationResponse;
 import com.example.onlineticketbooking.models.reservation.ReservationService;
+import com.example.onlineticketbooking.models.reservation.ReservationUpdateBody;
 
 import java.util.List;
 
@@ -138,7 +141,7 @@ public class ReservationManager {
         }
     }
 
-    public void updateReservation(String reservationId, ReservationRequestBody updatedBody) {
+    public void updateReservation(String reservationId, ReservationUpdateBody updatedBody) {
         if (!NetworkManager.getInstance().isNetworkAvailable()) {
             //onError.accept("No internet connectivity");
             return;
@@ -147,21 +150,35 @@ public class ReservationManager {
         reservationService.updateReservationDetails(reservationId, updatedBody).enqueue(new Callback<List<ReservationResponse>>() {
             @Override
             public void onResponse(Call<List<ReservationResponse>> call, Response<List<ReservationResponse>> response) {
+
+                //print updatedBody as a json
+                System.out.println("Updated body: " + updatedBody);
+
+
                 if (response.isSuccessful()) {
+
+                    Toast.makeText(null, "Reservation updated successfully", Toast.LENGTH_SHORT).show();
                     List<ReservationResponse> reservationResponses = response.body();
                     if (reservationResponses != null && !reservationResponses.isEmpty()) {
-                        //onSuccess.accept(reservationResponses);
+                        //send the updated reservation details to the server
+                        System.out.println("Updated reservation details: " + reservationResponses);
+
+                        //call service to update the reservation details
+
+
                     } else {
+                        System.out.println("Empty or null response received while updating reservation details");
                         //onError.accept("Empty or null response received while updating reservation details");
                     }
                 } else {
+                    System.out.println("Failed to update reservation details: " + response.message());
                     //onError.accept("Failed to update reservation details: " + response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<List<ReservationResponse>> call, Throwable t) {
-                //onError.accept("Unknown error occurred while updating reservation details");
+                //onError.accept("Unknown error occurred while updating reservation details")
             }
         });
 
