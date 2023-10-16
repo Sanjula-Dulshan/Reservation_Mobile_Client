@@ -99,8 +99,13 @@ public class TripList extends AppCompatActivity implements TripAdapter.OnItemCli
             // You may choose to update the adapter data source and call notifyDataSetChanged()
         }, errorMessage -> {
             // Handle error while deleting reservation here
-            Toast.makeText(this, "Error: " + errorMessage, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Reservation deleted successfully", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Error: " + errorMessage, Toast.LENGTH_SHORT).show();
         });
+
+        //refresh the TripList activity
+        finish();
+        startActivity(getIntent());
     }
 
     @Override

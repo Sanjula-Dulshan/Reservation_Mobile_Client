@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,7 +45,7 @@ public class UpdateSeatsDialogFragment extends DialogFragment {
         TextView txtSeats = view.findViewById(R.id.editSeats);
         txtSeats.setText(seatCount);
 
-        Button btnUpdateSeats;
+        Button btnUpdateSeats, btnCancel;
         btnUpdateSeats = view.findViewById(R.id.btnUpdateSeats);
 
         btnUpdateSeats.setOnClickListener(new View.OnClickListener() {
@@ -54,22 +55,43 @@ public class UpdateSeatsDialogFragment extends DialogFragment {
                 String updatedSeatCount = txtSeats.getText().toString();
                 int updatedSeatCountInt = Integer.parseInt(updatedSeatCount);
 
+                if (updatedSeatCountInt < 1 || updatedSeatCountInt > 5) {
+                    Toast.makeText(getContext(), "Please enter a valid seat count", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 String longDate = date+"T00:00:00Z";
 
                 //convert totalPrice to double
                 double price = Double.parseDouble(totalPrice);
-
-//                // Use SharedPreferences from the parent activity
-//                SharedPreferences.Editor editor = sharedPreferences.edit();
-//                editor.putString("updatedSeatCount", updatedSeatCount);
-//                editor.apply();
 
                 ReservationUpdateBody body = new ReservationUpdateBody(reservationId, userId, trainId, fromStation, toStation, updatedSeatCountInt, longDate, price);
 
                 System.out.println("Class created");                // update reservation
                 ReservationManager.getInstance().updateReservation(reservationId, body);
 
+                Toast.makeText(getContext(), "Seats updated successfully", Toast.LENGTH_SHORT).show();
+
+                //refresh the TripList activity
+                getActivity().finish();
+                startActivity(getActivity().getIntent());
+
+
+
+
                 // Close the dialog
+                dismiss();
+            }
+        });
+
+        btnCancel = view.findViewById(R.id.btnCancel);
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Close the dialog
+                //refresh the TripList activity
+                getActivity().finish();
+                startActivity(getActivity().getIntent());
                 dismiss();
             }
         });

@@ -1,5 +1,8 @@
 package com.example.onlineticketbooking;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.icu.text.SimpleDateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +10,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
@@ -57,6 +63,23 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
             txtToStation.setText("To: " + item.getToStation());
             txtSeats.setText("Seats: " + item.getNumberOfSeats());
             txtPrice.setText("Price: " + item.getPrice());
+
+            // Disable the update button if the date is older than 5 days.
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date tripDate = null;
+            try {
+                tripDate = sdf.parse(item.getDate());
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+            Date todayDate = new Date();
+            long daysBetween = (tripDate.getTime()) / (1000 * 60 * 60 * 24) - (todayDate.getTime()) / (1000 * 60 * 60 * 24);
+            if (daysBetween < 5) {
+                btnUpdate.setEnabled(false);
+                btnUpdate.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#858482")));
+                btnDelete.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#fa5252")));
+                btnDelete.setEnabled(false);
+            }
 
             btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
