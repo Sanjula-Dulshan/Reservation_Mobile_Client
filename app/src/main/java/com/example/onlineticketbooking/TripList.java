@@ -106,6 +106,10 @@ public class TripList extends AppCompatActivity implements TripAdapter.OnItemCli
         //refresh the TripList activity
         finish();
         startActivity(getIntent());
+
+        //go back
+        Intent intent = new Intent(getApplicationContext(), Home.class);
+        startActivity(intent);
     }
 
     @Override

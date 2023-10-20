@@ -20,6 +20,8 @@ public class ReservationResponse {
 
     private String toStation;
 
+    private String message;
+
     public Date getDate() {
         return date;
     }
@@ -68,5 +70,9 @@ public class ReservationResponse {
 
     public boolean isAgent() {
         return isAgent;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }

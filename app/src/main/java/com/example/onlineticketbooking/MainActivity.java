@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, Login.class));
                 finish();
             }
-        }, 2000);
+        }, 3000);
 
     }
 }

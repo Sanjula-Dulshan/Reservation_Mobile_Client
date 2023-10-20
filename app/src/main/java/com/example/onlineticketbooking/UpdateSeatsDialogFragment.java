@@ -1,5 +1,6 @@
 package com.example.onlineticketbooking;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -55,7 +56,7 @@ public class UpdateSeatsDialogFragment extends DialogFragment {
                 String updatedSeatCount = txtSeats.getText().toString();
                 int updatedSeatCountInt = Integer.parseInt(updatedSeatCount);
 
-                if (updatedSeatCountInt < 1 || updatedSeatCountInt > 5) {
+                if (updatedSeatCountInt < 1 || updatedSeatCountInt > 4) {
                     Toast.makeText(getContext(), "Please enter a valid seat count", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -68,7 +69,14 @@ public class UpdateSeatsDialogFragment extends DialogFragment {
                 ReservationUpdateBody body = new ReservationUpdateBody(reservationId, userId, trainId, fromStation, toStation, updatedSeatCountInt, longDate, price);
 
                 System.out.println("Class created");                // update reservation
-                ReservationManager.getInstance().updateReservation(reservationId, body);
+                ReservationManager.getInstance().updateReservation(reservationId, body,response -> {
+                    // Handle the successful response here
+                    Toast.makeText(getContext(), "Reservation deleted successfully", Toast.LENGTH_SHORT).show();
+                    // You may choose to update the adapter data source and call notifyDataSetChanged()
+                }, errorMessage -> {
+                    // Handle error while deleting reservation here
+                    Toast.makeText(getContext(), "Error:"+errorMessage, Toast.LENGTH_SHORT).show();
+                });
 
                 Toast.makeText(getContext(), "Seats updated successfully", Toast.LENGTH_SHORT).show();
 
@@ -76,7 +84,9 @@ public class UpdateSeatsDialogFragment extends DialogFragment {
                 getActivity().finish();
                 startActivity(getActivity().getIntent());
 
-
+                //go home
+                Intent intent = new Intent(getContext(), Home.class);
+                startActivity(intent);
 
 
                 // Close the dialog

@@ -141,9 +141,9 @@ public class ReservationManager {
         }
     }
 
-    public void updateReservation(String reservationId, ReservationUpdateBody updatedBody) {
+    public void updateReservation(String reservationId, ReservationUpdateBody updatedBody,Consumer<List<ReservationResponse>> onSuccess, Consumer<String> onError) {
         if (!NetworkManager.getInstance().isNetworkAvailable()) {
-            //onError.accept("No internet connectivity");
+            onError.accept("No internet connectivity");
             return;
         }
 
@@ -157,22 +157,24 @@ public class ReservationManager {
 
                 if (response.isSuccessful()) {
 
-                    Toast.makeText(null, "Reservation updated successfully", Toast.LENGTH_SHORT).show();
+
+                    //Toast.makeText(null, "Reservation updated successfully", Toast.LENGTH_SHORT).show();
                     List<ReservationResponse> reservationResponses = response.body();
                     if (reservationResponses != null && !reservationResponses.isEmpty()) {
                         //send the updated reservation details to the server
                         System.out.println("Updated reservation details: " + reservationResponses);
-
+                        onSuccess.accept(response.body());
                         //call service to update the reservation details
 
 
                     } else {
                         System.out.println("Empty or null response received while updating reservation details");
-                        //onError.accept("Empty or null response received while updating reservation details");
+                        onError.accept("Empty or null response received while updating reservation details");
                     }
                 } else {
                     System.out.println("Failed to update reservation details: " + response.message());
-                    //onError.accept("Failed to update reservation details: " + response.message());
+                    onError.accept("Failed to update reservation details: " + response.message());
+
                 }
             }
 
